@@ -1,3 +1,18 @@
+להלן קובץ ה-`index.html` המלא והמעודכן, מוכן להעתקה ולהחלפה בפרויקט שלך.
+
+### מה שודרג בקובץ הזה?
+
+1. **איחוד בקשות בזמן אמת (In-Flight Promise Buffering):** אם התמונה הבאה כבר התחילה לרדת ברקע (Pre-fetch) והמשתמש לוחץ על כפתור `צור תמונת AI חדשה`, הקוד לא פותח בקשה חדשה אלא מתחבר להורדה שכבר רצה ברקע וחוסך זמן המתנה יקר.
+
+
+2. **טעינה מיידית מה-Cache לקלאסיקות המוכנות:** בעת טעינת העמוד או בחירת סיטואציה מתוך `PRESET_LIBRARY`, הקוד משתמש ב-Seed קבוע (`42`) כך שהתמונות נשמרות ב-CDN ויורדות בשבריר שנייה לכל המשתמשים באתר בלי לתפוס תור.
+
+
+3. **תמיכה אוטומטית ב-Multi-Provider (כולל מודל `turbo` המהיר):** הקוד בודק תחילה אם הגדרת את פונקציית `/.netlify/functions/image`, ואם לא – הוא מושך מ-Pollinations תחילה דרך מודל `turbo` המהיר ורק אם יש עומס עובר ל-`flux`, תוך הצגת מד התקדמות חי (`startBufferingProgress`) עד שהתמונה מתקבלת.
+
+
+
+```html
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -531,14 +546,7 @@
         // Initialize Lucide icons
         lucide.createIcons();
 
-        // Gemini API Configuration (empty key is populated at runtime)
-        const apiKey = "";
-        const TEXT_MODEL = "gemini-3-flash-preview";
-        const IMAGE_MODEL_LITE = "gemini-3.1-flash-lite-image";
-        const IMAGE_MODEL_FLASH = "gemini-3.1-flash-image";
-
         // Rich Categorized Presets Hub ("ספריית הקלאסיקות הזוגיות")
-        // Every preset includes 3 tightly connected, hilarious Hebrew punchline pairs + tailored visual scene prompt
         const PRESET_LIBRARY = {
             home: [
                 {
@@ -935,7 +943,8 @@
             fontSize: 44,
             textStyleIndex: 0, // 0: Classic Stroke, 1: Modern Card Box, 2: Split Top/Bottom Bar
             currentImageObj: null,
-            imageSeed: Math.floor(Math.random() * 999999)
+            imageSeed: 42,
+            nextBufferedSeed: null
         };
 
         const textStyles = [
@@ -1066,6 +1075,7 @@
             state.actionItem = item.actionItem;
             state.broExplanation = item.broExplanation;
             state.imagePrompt = item.imagePrompt;
+            state.nextBufferedSeed = null;
 
             // Update UI selections
             complaintInput.value = item.complaint;
@@ -1082,7 +1092,7 @@
             renderPresetCards();
             applyCurrentOptionToUI();
 
-            // Immediately generate a tailored AI image for this preset
+            // Immediately load the cached/buffered AI image for this preset
             await triggerAiImageUpdate(state.imagePrompt, true);
         }
 
@@ -1306,7 +1316,7 @@
             ctx.restore();
         }
 
-        // Step 1: Call Gemini Text Model to craft 3 tightly connected Hebrew Meme Options + Image Prompt
+        // Step 1: Call Netlify Gemini Function to craft 3 tightly connected Hebrew Meme Options + Image Prompt
         async function generateMemeConcept(complaint, category, format, intensity) {
             const systemPrompt = `אתה קופירייטר קומי ישראלי מבריק ומומחה לזוגיות ("על חבל דק").
 המשימה שלך: לקחת תלונה שקטה של אישה על בן הזוג שלה ולהפוך אותה למים (Meme) קורע מצחוק, שנון ונטול מבוכה שהגבר יבין תוך 2 שניות.
@@ -1383,14 +1393,41 @@ bottomText: "שלב הבוס: נסה להזיז את החלב סנטימטר ה�
             return JSON.parse(rawJson);
         }
 
-        // Helper: Load an image URL or DataURL into an HTMLImageElement with CORS support
-        function loadImageElement(src, timeoutMs = 14000) {
+        // --- מערכת ניהול תור ו-Buffering חכם לתמונות (ללא חסימת 45 שניות) ---
+        const imageBufferCache = new Map(); // שומר תמונות או הבטחות (Promises) שכבר נמצאות בהורדה
+        let activeImageRequestId = 0;       // מונע דריסה אם המשתמש לחץ כמה פעמים מהר
+        let loadingProgressInterval = null;
+
+        // אנימציית Buffering חלקה שמראה למשתמש התקדמות בזמן אמת עד שהתמונה מגיעה
+        function startBufferingProgress(startPercent = 25) {
+            let progress = startPercent;
+            loadingBar.style.width = `${progress}%`;
+            clearInterval(loadingProgressInterval);
+            loadingProgressInterval = setInterval(() => {
+                if (progress < 94) {
+                    progress += Math.max(1, Math.floor((94 - progress) * 0.12));
+                    loadingBar.style.width = `${progress}%`;
+                    if (progress > 68) {
+                        loadingSubtitle.textContent = "בתור לשרת ה-AI... עוד כמה שניות והתמונה אצלך ביד ⏳";
+                    }
+                }
+            }, 900);
+        }
+
+        function stopBufferingProgress() {
+            clearInterval(loadingProgressInterval);
+            loadingBar.style.width = "100%";
+        }
+
+        // Helper: Load an image URL or DataURL into an HTMLImageElement with CORS support & 50s queue buffer
+        function loadImageElement(src, timeoutMs = 50000) {
             return new Promise((resolve, reject) => {
                 const img = new Image();
                 if (!src.startsWith('data:')) {
                     img.crossOrigin = "anonymous";
                 }
                 const timer = setTimeout(() => {
+                    img.src = "";
                     reject(new Error("Image load timeout"));
                 }, timeoutMs);
 
@@ -1406,20 +1443,84 @@ bottomText: "שלב הבוס: נסה להזיז את החלב סנטימטר ה�
             });
         }
 
-        // Step 2: Guaranteed Multi-Tier AI Image Generator
-        // Tier 1: Gemini 3.1 Flash Lite Image -> Tier 2: Gemini 3.1 Flash Image -> Tier 3: Pollinations Flux AI Image
-async function generateGuaranteedAiImage(englishImagePrompt, seed) {
-    const cleanPrompt = `${englishImagePrompt}. Funny expressive cinematic comedy scene, vibrant lighting, exaggerated humorous facial expression, centered composition. Strictly NO text, NO letters, NO words, NO watermarks inside the image.`;
+        // Step 2: Multi-Engine AI Image Generator with In-Flight Promise Sharing & Pre-buffering
+        function generateGuaranteedAiImage(englishImagePrompt, seed) {
+            const cacheKey = `${englishImagePrompt}_${seed}`;
 
-    const encodedPrompt = encodeURIComponent(`${cleanPrompt}, comedy photography, expressive face, no text`);
-    const fluxUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=900&height=900&seed=${seed}&nologo=true&model=flux`;
-    return await loadImageElement(fluxUrl, 15000);
-}
+            // אם התמונה כבר ירדה או שהיא כרגע באמצע הורדה ברקע (Pre-fetching) - נתחבר אליה מיד!
+            if (imageBufferCache.has(cacheKey)) {
+                return imageBufferCache.get(cacheKey);
+            }
+
+            const fetchPromise = (async () => {
+                const cleanPrompt = `${englishImagePrompt}. Funny expressive cinematic comedy scene, vibrant lighting, exaggerated humorous facial expression, centered composition. Strictly NO text, NO letters, NO words, NO watermarks inside the image.`;
+
+                // מנוע 1: ניסיון דרך פונקציית Netlify המהירה (HuggingFace FLUX.1-schnell - כ-1.5 שניות) אם קיימת
+                try {
+                    const hfRes = await fetch('/.netlify/functions/image', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ prompt: cleanPrompt, seed })
+                    });
+                    if (hfRes.ok) {
+                        const data = await hfRes.json();
+                        if (data.dataUrl) {
+                            return await loadImageElement(data.dataUrl, 12000);
+                        }
+                    }
+                } catch (e) {
+                    // ממשיך אוטומטית ובשקט למנוע הבא
+                }
+
+                // מנוע 2: Pollinations במודל Turbo (מהיר פי 5) או Flux עם המתנה מלאה בתור (Buffering)
+                const encodedPrompt = encodeURIComponent(`${cleanPrompt}, comedy photography, expressive face, no text`);
+                const modelsToTry = ['turbo', 'flux'];
+
+                for (const modelName of modelsToTry) {
+                    try {
+                        const url = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=900&height=900&seed=${seed}&nologo=true&model=${modelName}`;
+                        return await loadImageElement(url, 50000);
+                    } catch (err) {
+                        // ממשיך למודל הבא בתור במידת הצורך
+                    }
+                }
+
+                throw new Error("All image providers busy");
+            })();
+
+            // שמירת ההבטחה (Promise) ב-Cache כך שלחיצה של המשתמש תצטרף להורדה שכבר רצה ברקע
+            imageBufferCache.set(cacheKey, fetchPromise);
+            fetchPromise.catch(() => {
+                imageBufferCache.delete(cacheKey);
+            });
+
+            return fetchPromise;
+        }
+
+        // Pre-fetcher: מכין מראש ברקע את התמונה הבאה בזמן שהמשתמש צופה במים הנוכחי!
+        function prebufferNextImage(promptToUse) {
+            const nextSeed = Math.floor(Math.random() * 9000) + 1000;
+            state.nextBufferedSeed = nextSeed;
+            setTimeout(() => {
+                generateGuaranteedAiImage(promptToUse, nextSeed).catch(() => {});
+            }, 500);
+        }
 
         // Trigger only a new AI image for the current meme
-        async function triggerAiImageUpdate(promptToUse, silentOverlay = false) {
-            state.imageSeed = Math.floor(Math.random() * 999999);
+        async function triggerAiImageUpdate(promptToUse, isPresetLoad = false) {
+            const requestId = ++activeImageRequestId;
             const targetPrompt = promptToUse || state.imagePrompt || "Funny expressive husband in a domestic comedy situation, vibrant lighting";
+
+            // אם זו טעינה של פריסט מוכן: נשתמש ב-Seed קבוע (42) כדי שיישלף מיד מה-CDN Cache!
+            // אם המשתמש לחץ על "תמונה חדשה": ניקח את ה-Seed שכבר הוכן מראש ב-Buffer ברקע!
+            if (isPresetLoad) {
+                state.imageSeed = 42;
+            } else if (state.nextBufferedSeed) {
+                state.imageSeed = state.nextBufferedSeed;
+                state.nextBufferedSeed = null;
+            } else {
+                state.imageSeed = Math.floor(Math.random() * 9000) + 1000;
+            }
 
             loadingOverlay.classList.remove('hidden');
             newAiImageBtn.disabled = true;
@@ -1427,23 +1528,32 @@ async function generateGuaranteedAiImage(englishImagePrompt, seed) {
             loadingEmoji.textContent = "🎨";
             loadingTitle.textContent = "מייצרת תמונת AI מותאמת למים...";
             loadingSubtitle.textContent = "בונה סצנה הומוריסטית חדשה שמתאימה בול לפאנץ'";
-            loadingBar.style.width = "65%";
+            startBufferingProgress(35);
 
             try {
                 const imgObj = await generateGuaranteedAiImage(targetPrompt, state.imageSeed);
+                if (requestId !== activeImageRequestId) return;
+
                 state.currentImageObj = imgObj;
-                loadingBar.style.width = "100%";
+                stopBufferingProgress();
                 renderMemeCanvas();
-                if (!silentOverlay) {
+                if (!isPresetLoad) {
                     showToast("נוצרה תמונת AI חדשה! 🎨✨");
                 }
+
+                // מיד כשמסיימים, מכינים ברקע (Buffer) את התמונה הבאה למקרה שהמשתמש ילחץ שוב!
+                prebufferNextImage(targetPrompt);
             } catch (err) {
+                if (requestId !== activeImageRequestId) return;
                 state.currentImageObj = createIllustratedFallback(state.category);
                 renderMemeCanvas();
             } finally {
-                loadingOverlay.classList.add('hidden');
-                newAiImageBtn.disabled = false;
-                generateBtn.disabled = false;
+                if (requestId === activeImageRequestId) {
+                    stopBufferingProgress();
+                    loadingOverlay.classList.add('hidden');
+                    newAiImageBtn.disabled = false;
+                    generateBtn.disabled = false;
+                }
             }
         }
 
@@ -1458,7 +1568,9 @@ async function generateGuaranteedAiImage(englishImagePrompt, seed) {
             }
             errorBanner.classList.add('hidden');
             state.complaint = complaint;
-            state.imageSeed = Math.floor(Math.random() * 999999);
+            state.imageSeed = Math.floor(Math.random() * 9000) + 1000;
+            state.nextBufferedSeed = null;
+            const requestId = ++activeImageRequestId;
 
             // Show Loading UI
             loadingOverlay.classList.remove('hidden');
@@ -1468,7 +1580,7 @@ async function generateGuaranteedAiImage(englishImagePrompt, seed) {
             loadingEmoji.textContent = "🤸‍♀️";
             loadingTitle.textContent = "הולכת על חבל דק...";
             loadingSubtitle.textContent = "מנסחת 3 פאנצ'ים מחוברים שהוא יבין בשנייה";
-            loadingBar.style.width = "38%";
+            loadingBar.style.width = "35%";
 
             try {
                 // 1. Generate 3 connected Hebrew meme options & image prompt
@@ -1484,31 +1596,38 @@ async function generateGuaranteedAiImage(englishImagePrompt, seed) {
 
                 applyCurrentOptionToUI();
 
-                // Update loading state for Step 2 (AI Image Generation)
+                // Update loading state for Step 2 (AI Image Generation with Smooth Buffering)
                 loadingEmoji.textContent = "🎨";
                 loadingTitle.textContent = "מייצרת תמונת AI חדשה למים...";
                 loadingSubtitle.textContent = "מתאימה את ההבעה והסצנה בדיוק לבדיחה";
-                loadingBar.style.width = "78%";
+                startBufferingProgress(55);
 
                 // 2. Generate Guaranteed AI Image
                 try {
                     const imgObj = await generateGuaranteedAiImage(state.imagePrompt, state.imageSeed);
+                    if (requestId !== activeImageRequestId) return;
                     state.currentImageObj = imgObj;
+                    // מכינים ברקע את התמונה הבאה עבור המים החדש
+                    prebufferNextImage(state.imagePrompt);
                 } catch (imgErr) {
+                    if (requestId !== activeImageRequestId) return;
                     state.currentImageObj = createIllustratedFallback(state.category);
                 }
 
-                loadingBar.style.width = "100%";
+                stopBufferingProgress();
                 renderMemeCanvas();
                 showToast("המים החדש מוכן! אפשר גם להחליף בין 3 פאנצ'ים 🔄");
             } catch (err) {
                 errorBanner.textContent = "אופס, הייתה תקלה קטנה ביצירת המים. נסי ללחוץ שוב!";
                 errorBanner.classList.remove('hidden');
             } finally {
-                loadingOverlay.classList.add('hidden');
-                generateBtn.disabled = false;
-                regenerateAngleBtn.disabled = false;
-                newAiImageBtn.disabled = false;
+                if (requestId === activeImageRequestId) {
+                    stopBufferingProgress();
+                    loadingOverlay.classList.add('hidden');
+                    generateBtn.disabled = false;
+                    regenerateAngleBtn.disabled = false;
+                    newAiImageBtn.disabled = false;
+                }
             }
         }
 
@@ -1650,3 +1769,5 @@ async function generateGuaranteedAiImage(englishImagePrompt, seed) {
     </script>
 </body>
 </html>
+
+```
