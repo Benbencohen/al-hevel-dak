@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>על חבל דק - מחולל הממים לזוגיות</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Rubik for UI, Secular One & Heebo for bold Hebrew Meme Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@700;900&family=Rubik:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Secular+One&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Rubik', 'sans-serif'],
+                        meme: ['Secular One', 'Heebo', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            200: '#fecdd3',
+                            300: '#fda4af',
+                            400: '#fb7185',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                            700: '#be123c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            background: radial-gradient(circle at top right, #fff1f2 0%, #fef3c7 42%, #f8fafc 100%);
+            min-height: 100vh;
+        }
+
+        /* Custom Range Slider */
+        input[type=range].hint-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, #f43f5e 0%, #f59e0b 50%, #10b981 100%);
+            border-radius: 999px;
+            outline: none;
+        }
+
+        input[type=range].hint-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 4px solid #e11d48;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(225, 29, 72, 0.35);
+            transition: transform 0.15s ease;
+        }
+
+        input[type=range].hint-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+
+        .category-card.active, .format-card.active {
+            border-color: #e11d48;
+            background-color: #fff1f2;
+            box-shadow: 0 8px 20px -4px rgba(225, 29, 72, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #e11d48 0%, #f59e0b 100%);
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+        }
+
+        .preset-card {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .preset-card:hover {
+            transform: translateY(-2px);
+            border-color: #fb7185;
+            box-shadow: 0 6px 16px -4px rgba(225, 29, 72, 0.14);
+        }
+        .preset-card.selected {
+            border-color: #e11d48;
+            background-color: #fff1f2;
+        }
+
+        /* Tightrope visual animation */
+        @keyframes balance-sway {
+            0%, 100% { transform: rotate(-4deg) translateY(0px); }
+            50% { transform: rotate(4deg) translateY(-2px); }
+        }
+        .tightrope-walker {
+            animation: balance-sway 3s infinite ease-in-out;
+            transform-origin: bottom center;
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased selection:bg-rose-200 selection:text-rose-900 pb-16">
+
+    <!-- Top Decorative Banner -->
+    <div class="bg-gradient-to-l from-rose-600 via-pink-600 to-amber-500 text-white py-2.5 px-4 text-center text-xs sm:text-sm font-medium shadow-sm">
+        <span>🎪 על חבל דק: לא שומרים בבטן ולא חופרים בוואטסאפ — שולחים מים שהוא באמת יבין תוך 2.4 שניות ✨</span>
+    </div>
+
+    <!-- Header with Tightrope Motif -->
+    <header class="max-w-7xl mx-auto pt-6 pb-5 px-4 sm:px-6">
+        <div class="relative overflow-hidden bg-white/90 backdrop-blur-md border border-rose-100 rounded-3xl p-5 sm:p-7 shadow-sm">
+            <!-- Decorative Tightrope SVG Line across Header -->
+            <div class="hidden md:block absolute top-3 left-12 right-12 pointer-events-none opacity-80">
+                <svg viewBox="0 0 800 32" class="w-full h-8 overflow-visible">
+                    <path d="M 0 18 Q 400 28 800 18" stroke="#fda4af" stroke-width="2" stroke-dasharray="6 4" fill="none" />
+                    <circle cx="0" cy="18" r="4" fill="#e11d48" />
+                    <circle cx="800" cy="18" r="4" fill="#f59e0b" />
+                </svg>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center justify-between gap-5 relative z-10">
+                <div class="flex items-center gap-4 text-center md:text-right flex-col sm:flex-row">
+                    <!-- Tightrope Balance Logo Icon -->
+                    <div class="relative w-18 h-18 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-rose-500 via-pink-500 to-amber-500 flex flex-col items-center justify-center text-white shadow-lg shadow-rose-200 shrink-0 p-3">
+                        <span class="text-3xl tightrope-walker inline-block">🤸‍♀️</span>
+                        <div class="w-12 h-0.5 bg-white/90 rounded-full mt-1 shadow-sm"></div>
+                        <span class="text-[10px] font-bold tracking-wider uppercase opacity-90 mt-0.5">BALANCE</span>
+                    </div>
+
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-xs font-bold mb-1.5">
+                            <span>מתורגמן רשמי לשפה גברית</span>
+                            <span>•</span>
+                            <span>100% פאנץ' מחובר</span>
+                            <span>•</span>
+                            <span>Zero Cringe</span>
+                        </div>
+                        <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 flex items-center justify-center md:justify-start gap-2.5 flex-wrap">
+                            <span>על חבל דק</span>
+                            <span class="text-lg sm:text-2xl font-bold px-3 py-1 rounded-2xl bg-gradient-to-l from-rose-600 to-amber-500 text-white shadow-sm">המדריך השנון לזוגיות</span>
+                        </h1>
+                        <p class="text-slate-600 text-sm sm:text-lg mt-1.5 font-medium">
+                            רמזים מספיק עבים כדי שהוא יבין, מספיק קלילים כדי שלא תשמרי בבטן 🎯
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Balance Meter Pill -->
+                <div class="flex items-center gap-3 bg-gradient-to-l from-amber-50 to-rose-50 border border-rose-200/80 px-4 py-3.5 rounded-2xl text-xs sm:text-sm text-slate-800 shrink-0 shadow-sm">
+                    <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-xl shadow-sm shrink-0">⚖️</div>
+                    <div>
+                        <div class="font-bold text-rose-900">האיזון המושלם על החבל:</div>
+                        <div class="text-slate-600 text-xs mt-0.5">50% הומור קורע + 50% הוראות הפעלה ברורות לגבר</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+        <!-- RIGHT COLUMN (RTL): Presets Hub, Input & Controls (7 cols on lg) -->
+        <section class="lg:col-span-7 bg-white rounded-3xl shadow-xl shadow-rose-100/50 border border-rose-100 p-5 sm:p-7 space-y-6">
+            
+            <!-- STEP 1: Rich Categorized Presets Hub ("ספריית הקלאסיקות הזוגיות") -->
+            <div class="bg-slate-50/80 border border-slate-200/90 rounded-2xl p-4 sm:p-5">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3.5">
+                    <div class="flex items-center gap-2">
+                        <span class="w-7 h-7 rounded-full bg-rose-600 text-white text-sm flex items-center justify-center font-bold shrink-0">1</span>
+                        <h2 class="text-base sm:text-lg font-extrabold text-slate-900">ספריית הקלאסיקות הזוגיות (בחרי סיטואציה מוכנה)</h2>
+                    </div>
+                    <span class="text-xs text-rose-600 font-bold bg-rose-100/80 px-2.5 py-1 rounded-full self-start sm:self-auto">
+                        ⚡ טוען מיד מים מוכן + תמונת AI!
+                    </span>
+                </div>
+
+                <!-- Category Tabs -->
+                <div class="flex flex-wrap gap-1.5 mb-3.5" id="presetTabsContainer">
+                    <button type="button" data-tab="home" class="tab-btn active text-xs sm:text-sm font-bold px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-slate-700 transition flex items-center gap-1.5">
+                        <span>🏠</span><span>הבית והכיור</span>
+                    </button>
+                    <button type="button" data-tab="whatsapp" class="tab-btn text-xs sm:text-sm font-bold px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-slate-700 transition flex items-center gap-1.5">
+                        <span>📱</span><span>וואטסאפ ותקשורת</span>
+                    </button>
+                    <button type="button" data-tab="food" class="tab-btn text-xs sm:text-sm font-bold px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-slate-700 transition flex items-center gap-1.5">
+                        <span>🍔</span><span>אוכל, רעב ויציאות</span>
+                    </button>
+                    <button type="button" data-tab="couch" class="tab-btn text-xs sm:text-sm font-bold px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-slate-700 transition flex items-center gap-1.5">
+                        <span>🛋️</span><span>ספה, גיימינג ושינה</span>
+                    </button>
+                    <button type="button" data-tab="romance" class="tab-btn text-xs sm:text-sm font-bold px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-slate-700 transition flex items-center gap-1.5">
+                        <span>💐</span><span>צומי ורומנטיקה</span>
+                    </button>
+                </div>
+
+                <!-- Dynamic Preset Cards Grid -->
+                <div id="presetCardsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-60 overflow-y-auto pr-1">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+
+            <!-- Custom Complaint Textarea -->
+            <div>
+                <div class="flex items-center justify-between mb-2">
+                    <label for="complaintInput" class="flex items-center gap-2 text-base sm:text-lg font-bold text-slate-900">
+                        <i data-lucide="message-square-heart" class="w-5 h-5 text-rose-600"></i>
+                        <span>או נסחי בעצמך: מה יושב לך בבטן עכשיו?</span>
+                    </label>
+                    <span class="text-xs text-slate-400 font-medium">אפשר לערוך או לכתוב כל סיטואציה ספציפית</span>
+                </div>
+                
+                <div class="relative">
+                    <textarea
+                        id="complaintInput"
+                        rows="2"
+                        placeholder="למשל: הוא שם את הכפית והצלחת בכיור ממש מעל המדיח הפנוי, או: בא לי שהוא יזמין לנו משהו טעים הערב בלי שאצטרך לרמוז 8 פעמים..."
+                        class="w-full rounded-2xl border-2 border-slate-200 focus:border-rose-500 focus:ring-4 focus:ring-rose-100 p-3.5 text-slate-800 placeholder:text-slate-400 text-sm sm:text-base transition outline-none resize-none bg-white"
+                    ></textarea>
+                    <button
+                        id="clearInputBtn"
+                        type="button"
+                        title="נקה טקסט"
+                        class="hidden absolute left-3 bottom-3 text-xs text-slate-400 hover:text-rose-600 bg-slate-100 hover:bg-rose-50 px-2.5 py-1 rounded-lg border border-slate-200 transition"
+                    >
+                        נקה
+                    </button>
+                </div>
+            </div>
+
+            <hr class="border-slate-100">
+
+            <!-- STEP 2: Joke Structure (Meme Format) for Tightly Connected Lines -->
+            <div>
+                <div class="flex items-center justify-between mb-2.5">
+                    <label class="flex items-center gap-2 text-base sm:text-lg font-bold text-slate-900">
+                        <span class="w-7 h-7 rounded-full bg-rose-600 text-white text-sm flex items-center justify-center font-bold shrink-0">2</span>
+                        <span>מבנה הפאנץ' (מוודא קשר הדוק ומצחיק בין השורות)</span>
+                    </label>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5" id="formatGrid">
+                    <button type="button" data-format="setup_punch" class="format-card active text-right p-3.5 rounded-2xl border-2 border-slate-200 bg-white transition flex items-start gap-3">
+                        <div class="text-xl bg-rose-100 w-10 h-10 rounded-xl flex items-center justify-center shrink-0">🎯</div>
+                        <div>
+                            <div class="font-bold text-slate-900 text-sm">פתיחה ופאנץ' משלים</div>
+                            <div class="text-xs text-slate-500 mt-0.5">שורה ראשונה בונה את הסיטואציה ← שורה שנייה מפילה את האסימון</div>
+                        </div>
+                    </button>
+
+                    <button type="button" data-format="pov_when" class="format-card text-right p-3.5 rounded-2xl border-2 border-slate-200 bg-white transition flex items-start gap-3">
+                        <div class="text-xl bg-amber-100 w-10 h-10 rounded-xl flex items-center justify-center shrink-0">👀</div>
+                        <div>
+                            <div class="font-bold text-slate-900 text-sm">כש... / POV</div>
+                            <div class="text-xs text-slate-500 mt-0.5">"כשאתה עושה X..." ← "...ומצפה שיקרה נס בלי שתזיז אצבע"</div>
+                        </div>
+                    </button>
+
+                    <button type="button" data-format="expectation_reality" class="format-card text-right p-3.5 rounded-2xl border-2 border-slate-200 bg-white transition flex items-start gap-3">
+                        <div class="text-xl bg-purple-100 w-10 h-10 rounded-xl flex items-center justify-center shrink-0">⚖️</div>
+                        <div>
+                            <div class="font-bold text-slate-900 text-sm">איך שהוא מרגיש vs המציאות</div>
+                            <div class="text-xs text-slate-500 mt-0.5">איך שהוא בטוח שהוא יצא מלך ← מה שבאמת קורה בשטח עכשיו</div>
+                        </div>
+                    </button>
+
+                    <button type="button" data-format="var_alert" class="format-card text-right p-3.5 rounded-2xl border-2 border-slate-200 bg-white transition flex items-start gap-3">
+                        <div class="text-xl bg-emerald-100 w-10 h-10 rounded-xl flex items-center justify-center shrink-0">🚨</div>
+                        <div>
+                            <div class="font-bold text-slate-900 text-sm">בדיקת VAR / התראת מערכת</div>
+                            <div class="text-xs text-slate-500 mt-0.5">שופטי ה-VAR בדקו את האירוע ← והפסיקו את המשחק עד לתיקון</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <hr class="border-slate-100">
+
+            <!-- STEP 3: Bro-Intuition World Selector -->
+            <div>
+                <label class="flex items-center gap-2 text-base sm:text-lg font-bold text-slate-900 mb-2.5">
+                    <span class="w-7 h-7 rounded-full bg-rose-600 text-white text-sm flex items-center justify-center font-bold shrink-0">3</span>
+                    <span>באיזו שפה המוח שלו קולט הכי מהר? (עולם תוכן)</span>
+                </label>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5" id="categoryGrid">
+                    <button type="button" data-category="football" class="category-card active text-center p-3 rounded-2xl border-2 border-slate-200 bg-white transition flex flex-col items-center gap-1.5">
+                        <div class="text-2xl bg-emerald-100 w-10 h-10 rounded-xl flex items-center justify-center">⚽</div>
+                        <div class="font-bold text-slate-900 text-xs sm:text-sm">כדורגל ו-VAR</div>
+                        <div class="text-[11px] text-slate-500 leading-tight">שופט, צהוב, דקה 90</div>
+                    </button>
+
+                    <button type="button" data-category="gaming" class="category-card text-center p-3 rounded-2xl border-2 border-slate-200 bg-white transition flex flex-col items-center gap-1.5">
+                        <div class="text-2xl bg-indigo-100 w-10 h-10 rounded-xl flex items-center justify-center">🎮</div>
+                        <div class="font-bold text-slate-900 text-xs sm:text-sm">גיימינג ומשימות</div>
+                        <div class="text-[11px] text-slate-500 leading-tight">Side Quest, מד HP, XP</div>
+                    </button>
+
+                    <button type="button" data-category="food" class="category-card text-center p-3 rounded-2xl border-2 border-slate-200 bg-white transition flex flex-col items-center gap-1.5">
+                        <div class="text-2xl bg-amber-100 w-10 h-10 rounded-xl flex items-center justify-center">🍔</div>
+                        <div class="font-bold text-slate-900 text-xs sm:text-sm">אוכל ופינוקים</div>
+                        <div class="text-[11px] text-slate-500 leading-tight">משלוח חירום, סוכר נמוך</div>
+                    </button>
+
+                    <button type="button" data-category="classic" class="category-card text-center p-3 rounded-2xl border-2 border-slate-200 bg-white transition flex flex-col items-center gap-1.5">
+                        <div class="text-2xl bg-rose-100 w-10 h-10 rounded-xl flex items-center justify-center">😎</div>
+                        <div class="font-bold text-slate-900 text-xs sm:text-sm">ציני ישראלי חד</div>
+                        <div class="text-[11px] text-slate-500 leading-tight">הומור זוגי בגובה העיניים</div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 4: Hint Intensity Slider -->
+            <div>
+                <div class="flex items-center justify-between mb-1.5">
+                    <label for="intensitySlider" class="flex items-center gap-2 text-base font-bold text-slate-900">
+                        <span class="w-7 h-7 rounded-full bg-rose-600 text-white text-sm flex items-center justify-center font-bold shrink-0">4</span>
+                        <span>מד איזון החבל (עוצמת הרמז)</span>
+                    </label>
+                    <span id="intensityBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200">
+                        רמה 2: ברור לגמרי אבל עם חיוך 😏
+                    </span>
+                </div>
+
+                <div class="px-2 pt-2 pb-1">
+                    <input id="intensitySlider" type="range" min="1" max="3" step="1" value="2" class="hint-slider">
+                    <div class="flex justify-between text-xs font-medium text-slate-500 mt-2">
+                        <span class="text-right">😉 עקיצה אלגנטית</span>
+                        <span class="text-center">😏 ברור לגמרי עם חיוך</span>
+                        <span class="text-left">🚨 שלט ניאון מהבהב (אבל קורע)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generate CTA Button -->
+            <div class="pt-1">
+                <button
+                    id="generateBtn"
+                    type="button"
+                    class="w-full py-4 px-6 rounded-2xl bg-gradient-to-l from-rose-600 via-pink-600 to-amber-500 hover:from-rose-700 hover:via-pink-700 hover:to-amber-600 text-white font-extrabold text-lg shadow-lg shadow-rose-300/60 hover:shadow-xl transition-all flex items-center justify-center gap-3 active:scale-[0.99]"
+                >
+                    <i data-lucide="sparkles" class="w-6 h-6"></i>
+                    <span>צרי מים + תמונת AI חדשה עם פאנץ' מחובר!</span>
+                </button>
+                <p id="errorBanner" class="hidden mt-3 text-sm text-rose-700 bg-rose-50 border border-rose-200 rounded-xl p-3 text-center font-medium"></p>
+            </div>
+        </section>
+
+        <!-- LEFT COLUMN (RTL): Meme Preview, Punchline Switcher, AI Image Regenerator & Sharing (5 cols on lg) -->
+        <section class="lg:col-span-5 space-y-5">
+            
+            <!-- Meme Card Container -->
+            <div class="bg-white rounded-3xl shadow-xl shadow-rose-100/50 border border-rose-100 p-5 sm:p-6">
+                
+                <!-- Top Bar above Canvas -->
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                        <h2 class="font-bold text-slate-900 text-base">המים שלך (מוכן לשליחה)</h2>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <button id="cyclePunchlineBtn" type="button" class="text-xs bg-rose-100 hover:bg-rose-200 text-rose-800 px-3 py-1.5 rounded-xl font-bold transition flex items-center gap-1.5 border border-rose-200" title="החלף בין 3 ניסוחי פאנץ' מחוברים">
+                            <i data-lucide="repeat" class="w-3.5 h-3.5"></i>
+                            <span id="punchlineCounterLabel">החלף פאנץ' (1/3) 🔄</span>
+                        </button>
+                        <button id="styleToggleBtn" type="button" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1.5 rounded-xl font-medium transition flex items-center gap-1" title="החלף עיצוב כיתוב">
+                            <i data-lucide="layout-template" class="w-3.5 h-3.5"></i>
+                            <span id="styleToggleLabel">קלאסי</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Canvas Wrapper -->
+                <div class="relative w-full aspect-square rounded-2xl overflow-hidden bg-slate-900 shadow-inner border border-slate-200 flex items-center justify-center group">
+                    <!-- HTML5 Canvas where AI image + RTL Hebrew text are rendered sharply -->
+                    <canvas id="memeCanvas" width="900" height="900" class="w-full h-full object-contain block"></canvas>
+
+                    <!-- Loading Overlay -->
+                    <div id="loadingOverlay" class="hidden absolute inset-0 bg-slate-900/85 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center text-white z-20">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-rose-500 to-amber-400 flex items-center justify-center mb-4 animate-bounce shadow-lg">
+                            <span class="text-3xl" id="loadingEmoji">🤸‍♀️</span>
+                        </div>
+                        <h3 id="loadingTitle" class="text-lg font-bold mb-1">הולכת על חבל דק...</h3>
+                        <p id="loadingSubtitle" class="text-xs sm:text-sm text-rose-200 max-w-xs">בונה שורת פתיחה ופאנץ' מחוברים ומייצרת תמונת AI חדשה</p>
+                        <div class="w-48 h-2 bg-slate-700 rounded-full overflow-hidden mt-4">
+                            <div id="loadingBar" class="h-full bg-gradient-to-r from-rose-500 to-amber-400 w-1/3 transition-all duration-500 rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick AI Image & Punchline Controls Bar -->
+                <div class="mt-3 grid grid-cols-2 gap-2.5">
+                    <button
+                        id="newAiImageBtn"
+                        type="button"
+                        class="py-2.5 px-3 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-900 font-bold text-xs sm:text-sm border border-indigo-200 flex items-center justify-center gap-1.5 transition shadow-sm"
+                    >
+                        <i data-lucide="image-plus" class="w-4 h-4 text-indigo-600"></i>
+                        <span>🎨 צור תמונת AI חדשה</span>
+                    </button>
+
+                    <button
+                        id="regenerateAngleBtn"
+                        type="button"
+                        class="py-2.5 px-3 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 font-bold text-xs sm:text-sm border border-amber-200 flex items-center justify-center gap-1.5 transition shadow-sm"
+                    >
+                        <i data-lucide="wand-2" class="w-4 h-4 text-amber-600"></i>
+                        <span>✨ 3 פאנצ'ים חדשים ב-AI</span>
+                    </button>
+                </div>
+
+                <!-- Live Text Customization Controls -->
+                <div class="mt-3.5 bg-slate-50 rounded-2xl p-3.5 border border-slate-200/80 space-y-2.5">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                            <i data-lucide="edit-3" class="w-3.5 h-3.5 text-rose-500"></i>
+                            <span>עריכה חיה של השורות המחוברות:</span>
+                        </span>
+                        <div class="flex items-center gap-2">
+                            <label for="fontSizeSlider" class="text-xs text-slate-500">גודל טקסט:</label>
+                            <input id="fontSizeSlider" type="range" min="30" max="64" value="44" class="w-20 accent-rose-600 cursor-pointer">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-2">
+                        <div>
+                            <label class="text-[11px] font-semibold text-slate-500 block mb-0.5">שורה עליונה (בונה את ההקשר / ההגשה):</label>
+                            <input
+                                id="topTextInput"
+                                type="text"
+                                class="w-full text-sm px-3 py-1.5 rounded-xl border border-slate-200 bg-white focus:border-rose-500 outline-none font-medium"
+                                placeholder="שורה עליונה..."
+                            >
+                        </div>
+                        <div>
+                            <label class="text-[11px] font-semibold text-slate-500 block mb-0.5">שורה תחתונה (הפאנץ' הישיר שמשלים את השורה העליונה):</label>
+                            <input
+                                id="bottomTextInput"
+                                type="text"
+                                class="w-full text-sm px-3 py-1.5 rounded-xl border border-slate-200 bg-white focus:border-rose-500 outline-none font-medium"
+                                placeholder="שורה תחתונה..."
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Download Button -->
+                <div class="mt-3.5">
+                    <button
+                        id="downloadMemeBtn"
+                        type="button"
+                        class="w-full py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm sm:text-base shadow-md shadow-emerald-200 flex items-center justify-center gap-2 transition"
+                    >
+                        <i data-lucide="download" class="w-5 h-5"></i>
+                        <span>הורד מים כתמונה לוואטסאפ (PNG)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- WhatsApp Accompanying Caption & Bro-Code Decoder Card -->
+            <div class="bg-white rounded-3xl shadow-xl shadow-rose-100/50 border border-rose-100 p-5 sm:p-6 space-y-4">
+                
+                <!-- WhatsApp 1-Liner -->
+                <div class="bg-emerald-50/70 border border-emerald-200 rounded-2xl p-4">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <span class="text-xs font-extrabold text-emerald-800 flex items-center gap-1.5">
+                            <span>💬</span>
+                            <span>הודעה קלילה לצרף למים בוואטסאפ:</span>
+                        </span>
+                        <button
+                            id="copyWhatsappBtn"
+                            type="button"
+                            class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg font-bold flex items-center gap-1.5 transition shadow-sm"
+                        >
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            <span>העתק הודעה</span>
+                        </button>
+                    </div>
+                    <p id="whatsappCaptionText" class="text-sm sm:text-base font-medium text-emerald-950 bg-white/80 rounded-xl p-3 border border-emerald-100">
+                        "שופטי ה-VAR באופסייד על הכיור 😂 עוד 10 ס״מ למדיח ויש לנו גביע!"
+                    </p>
+                </div>
+
+                <!-- Action Decode & Bro-Brain Explanation -->
+                <div class="space-y-2.5">
+                    <div class="flex items-start gap-3 bg-amber-50/80 border border-amber-200/80 rounded-2xl p-3.5">
+                        <div class="w-8 h-8 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 font-bold text-sm">🎯</div>
+                        <div>
+                            <div class="text-xs font-bold text-amber-900">מה הוא יבין שהוא צריך לעשות עכשיו:</div>
+                            <p id="actionItemText" class="text-xs sm:text-sm text-amber-950 font-medium mt-0.5">
+                                להעביר את הצלחת למדיח בחיוך ולהרגיש שהוא "הבקיע שער ניצחון" במקום להרגיש שנוזפים בו.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3 bg-indigo-50/70 border border-indigo-100 rounded-2xl p-3.5">
+                        <div class="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0 font-bold text-sm">🧠</div>
+                        <div>
+                            <div class="text-xs font-bold text-indigo-900">למה הפאנץ' הזה עובד על המוח הגברי:</div>
+                            <p id="broExplanationText" class="text-xs sm:text-sm text-indigo-950 mt-0.5 leading-relaxed">
+                                כששורת הפתיחה מציגה הישג כמעט-מושלם והשורה התחתונה משלימה את הפאנץ' כאתגר ספורטיבי, הוא צוחק בקול ומבצע מיד בלי להיכנס למגננה.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 translate-y-4 transition-all duration-300 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-2.5 text-sm font-medium">
+        <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i>
+        <span id="toastMessage">הועתק ללוח בהצלחה!</span>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Gemini API Configuration (empty key is populated at runtime)
+        const apiKey = "";
+        const TEXT_MODEL = "gemini-3-flash-preview";
+        const IMAGE_MODEL_LITE = "gemini-3.1-flash-lite-image";
+        const IMAGE_MODEL_FLASH = "gemini-3.1-flash-image";
+
+        // Rich Categorized Presets Hub ("ספריית הקלאסיקות הזוגיות")
+        // Every preset includes 3 tightly connected, hilarious Hebrew punchline pairs + tailored visual scene prompt
+        const PRESET_LIBRARY = {
+            home: [
+                {
+                    id: "dish_sink",
+                    icon: "🍽️",
+                    title: "הצלחת בכיור 10 ס״מ מהמדיח",
+                    complaint: "הוא שם את הצלחת והכפית בכיור במקום להכניס למדיח הפנוי שנמצא 10 סנטימטר ימינה",
+                    category: "football",
+                    format: "var_alert",
+                    actionItem: "לקום בחיוך, להעביר את הצלחת 10 ס״מ ימינה לתוך המדיח ולהרגיש כמו אלוף אירופה.",
+                    broExplanation: "גברים לא רואים בכיור 'עבודה לא גמורה', אלא 'אזור חניה זמני'. כשממסגרים את ה-10 ס״מ האחרונים כפספוס מול שער ריק בבדיקת VAR, הוא קם מיד לתקן את הסטטיסטיקה.",
+                    imagePrompt: "Funny expressive close up of a soccer referee in uniform standing inside a modern home kitchen, dramatically pointing at a dirty plate sitting in a kitchen sink right next to an open dishwasher, comedic sports broadcast lighting, no text",
+                    options: [
+                        {
+                            topText: "בדיקת VAR במטבח: הצלחת עברה 99% מהדרך מהשולחן לכיור",
+                            bottomText: "פספסת ב-10 ס״מ מול מדיח ריק! עוד תנועה קטנה ימינה וזה שער ניצחון 🏆",
+                            whatsappCaption: "שופטי ה-VAR קוראים לך לשידור חוזר במטבח 😂⚽"
+                        },
+                        {
+                            topText: "כשאתה מניח את הכפית בכיור ממש מעל המדיח הפתוח...",
+                            bottomText: "...ומחכה שגמדי הלילה של ליגת האלופות יעשו לה טלפורטציה פנימה 🧚‍♂️🍽️",
+                            whatsappCaption: "הגמדים בשביתה הערב, המדיח מחכה לחלוץ המרכזי 😘"
+                        },
+                        {
+                            topText: "איך שאתה מרגיש אחרי שפינית צלחת לכיור: שחקן מצטיין 🏅",
+                            bottomText: "המציאות: עצרת על קו השער! דחוף אותה למדיח לפני שהשופטת שורקת",
+                            whatsappCaption: "עוד סנטימטר אחד ואתה מניף גביע במטבח 🏆😂"
+                        }
+                    ]
+                },
+                {
+                    id: "fridge_blindness",
+                    icon: "🔍",
+                    title: "״חיפשתי במקרר ואין!״ (כשזה בשורה הראשונה)",
+                    complaint: "הוא פותח את המקרר ל-2 שניות, מכריז 'אין לנו חמאה/חומוס' וכשאני באה זה ליטרלי בשורה הראשונה מול העיניים שלו",
+                    category: "gaming",
+                    format: "pov_when",
+                    actionItem: "להזיז קופסה אחת במקרר ולהסתכל יותר מ-1.5 שניות לפני שמכריזים על מצב חירום.",
+                    broExplanation: "תופעת 'עיוורון המקרר הגברי' מוכרת מדעית. כשמתייחסים לזה כאל משימת חיפוש במשחק מחשב שדורשת להזיז חפץ אחד כדי לגלות שלל, זה מצחיק אותו במקום להביך.",
+                    imagePrompt: "Hilarious man wearing a gaming headset staring intensely with a magnifying glass into a bright open refrigerator, while a giant glowing jar of food sits right in front of his nose, vibrant comedy illustration style, no text",
+                    options: [
+                        {
+                            topText: "כשאתה סורק את המקרר ל-1.2 שניות ומכריז: 'מאמי בדקתי, נגמר!'",
+                            bottomText: "שלב הבוס: נסה להזיז את החלב סנטימטר הצידה ותגלה אוצר בשורה הראשונה 🕵️‍♂️✨",
+                            whatsappCaption: "רמז למשימת החיפוש במקרר: זה מסתכל עליך בעיניים 😂🔍"
+                        },
+                        {
+                            topText: "ראדאר גברי בפיפ״א: מזהה שחקן פנוי מ-60 מטר בערפל",
+                            bottomText: "ראדאר גברי במקרר: לא מזהה קופסה בגודל אבטיח במדף האמצעי 🎯",
+                            whatsappCaption: "תפעיל רגע את הראדאר של הפלייסטיישן על המדף השני במקרר 😘"
+                        },
+                        {
+                            topText: "התראת מערכת: החפץ שטענת ש'לא קיים בבית'...",
+                            bottomText: "...נמצא כרגע במרחק 12 ס״מ מהאף שלך ומחכה שתעשה איתו קשר עין 👀",
+                            whatsappCaption: "אם אני באה ומוצאת את זה תוך 3 שניות אתה מכין לי קפה! ☕😏"
+                        }
+                    ]
+                },
+                {
+                    id: "trash_bag_door",
+                    icon: "🗑️",
+                    title: "שקית הזבל שעושה עלייה לרגל ליד הדלת",
+                    complaint: "הוא מוציא את שקית הזבל מהפח, קושר אותה יפה, ומשאיר אותה לעמוד ליד דלת הכניסה כאילו יש לה רגליים לצאת לבד",
+                    category: "classic",
+                    format: "setup_punch",
+                    actionItem: "לקחת את שקית הזבל שעומדת ליד הדלת בדרך החוצה ולהשלים את המשימה עד הפח למטה.",
+                    broExplanation: "מבחינתו קשירת השקית והצבתה ליד הדלת זה 80% מהפרויקט. המים מזכיר לו בקריצה שהשקית עדיין לא פיתחה יכולת הליכה עצמאית למעלית.",
+                    imagePrompt: "Funny cinematic photo of a tied black garbage bag standing proudly by a front apartment door wearing tiny sneakers and waiting impatiently to go outside, hilarious domestic comedy, no text",
+                    options: [
+                        {
+                            topText: "שקית הזבל שהשארת ליד הדלת כבר הזמינה מונית...",
+                            bottomText: "...כי היא הבינה שלבד היא לא תצליח לפתוח את המנעול ולרדת לפח 🗑️🚕",
+                            whatsappCaption: "נראה לי שהשקית ליד הדלת רומזת שהיא מוכנה לטיול שלה למטה 😂"
+                        },
+                        {
+                            topText: "כשאתה שם את השקית צמוד לדלת הכניסה בציפייה דרוכה...",
+                            bottomText: "...שהיא תצמיח רגליים, תלחץ על המעלית ותחזור עם קבלה מהעירייה 🏃‍♂️✨",
+                            whatsappCaption: "השקית מוסרת שהיא מוכנה לשלב ב' של המבצע 😂🗑️"
+                        },
+                        {
+                            topText: "סטטוס משימת הזבל: 50% הושלם (השקית קשורה ליד הדלת)",
+                            bottomText: "כדי לקבל את נקודות ה-XP של שלום בית – קח אותה איתך עכשיו למטה 🎮🏆",
+                            whatsappCaption: "בונוס XP כפול למי שמוריד את השקית שעושה שמירה ליד הדלת 😘"
+                        }
+                    ]
+                },
+                {
+                    id: "laundry_next_to_basket",
+                    icon: "🧦",
+                    title: "הגרביים שנחתו 3 ס״מ ליד סל הכביסה",
+                    complaint: "הוא מוריד בגדים או גרביים וזורק אותם בדיוק על הרצפה צמוד לסל הכביסה במקום בתוך הסל",
+                    category: "football",
+                    format: "expectation_reality",
+                    actionItem: "להרים את הגרביים מהרצפה ולהשחיל אותם לתוך סל הכביסה כמו סל ניצחון.",
+                    broExplanation: "זריקת בגדים לסל היא ספורט אתגרי בעיני גברים. אם מציגים את הבגדים שעל הרצפה כהחטאה מחוץ למסגרת שדורשת זריקת עונשין חוזרת, הוא קולע אותם פנימה בשנייה.",
+                    imagePrompt: "Funny dramatic photo of a pair of rolled up socks lying on the floor just two inches outside a laundry basket, with a miniature basketball hoop attached to the laundry hamper, bright comedic style, no text",
+                    options: [
+                        {
+                            topText: "איך שאתה מרגיש כשזרקת את הגרביים לכיוון סל הכביסה: סטף קרי מהשלוש 🏀",
+                            bottomText: "המציאות: פגעת ברצפה ליד הסל. יש לך זריקת עונשין חוזרת עכשיו!",
+                            whatsappCaption: "השופטים מאשרים זריקה חוזרת מהרצפה לתוך הסל 😂🧦"
+                        },
+                        {
+                            topText: "סל הכביסה מסתכל על החולצה שזרקת 4 ס״מ לידו על הרצפה...",
+                            bottomText: "...ותוהה למה תמיד עוצרים סנטימטר לפני הקסם 🧺✨",
+                            whatsappCaption: "עוד 4 ס״מ ימינה ויש לנו קליעה מושלמת לסל הכביסה 😘"
+                        },
+                        {
+                            topText: "בדיקת VAR בחדר שינה: הגרב נחתה מחוץ לקווי סל הכביסה",
+                            bottomText: "השער נפסל! נא להכניס לתוך הרשת כדי לאשר את הניצחון ⚽🧦",
+                            whatsappCaption: "תיקון קטן בזווית והגרביים בפנים 😂🏆"
+                        }
+                    ]
+                }
+            ],
+            whatsapp: [
+                {
+                    id: "thumbs_up_reply",
+                    icon: "👍",
+                    title: "עונה ״טוב״ או 👍 על הודעה מושקעת של 10 שורות",
+                    complaint: "כתבתי לו הודעה ארוכה, מרגשת ומושקעת בוואטסאפ עם 4 שאלות והוא ענה לי רק 'טוב' או אימוג'י של אגודל",
+                    category: "classic",
+                    format: "expectation_reality",
+                    actionItem: "לשלוח עכשיו הודעת המשך מפרגנת עם התייחסות אמיתית ומחמאה למה שכתבת.",
+                    broExplanation: "גברים חושבים ש-'טוב 👍' זו תגובה יעילה שמאשרת קבלה. המים מסביר לו בשנייה שהאגודל הזה שקול לניתוק בפנים ומזמין אותו לשדרג תגובה בלי דרמה.",
+                    imagePrompt: "Funny dramatic meme scene of a man proudly typing a single thumbs-up emoji on his smartphone while wearing a tuxedo as if he just wrote Shakespeare, comedic exaggerated facial expression, no text",
+                    options: [
+                        {
+                            topText: "איך שאתה מרגיש אחרי שענית 'טוב 👍' להודעה של 14 שורות: משורר הדור 📜",
+                            bottomText: "המציאות: יש לך 60 שניות להוסיף מחמאה ו-3 מילים שלמות לפני כרטיס אדום 🚨",
+                            whatsappCaption: "האגודל שלך בבדיקת מערכת 😂 תן איזה משפט מפרגן שנרגיש השקעה!"
+                        },
+                        {
+                            topText: "כשאתה עונה במילה אחת להודעה שהשקעתי בה את נשמתי...",
+                            bottomText: "...ומצפה שאני אגיד 'וואו איזה גבר ורבלי ורגיש זכיתי בו' 😍📱",
+                            whatsappCaption: "נותנת לך מועד ב' על התגובה האחרונה בוואטסאפ 😘😂"
+                        },
+                        {
+                            topText: "בדיקת מערכת הוואטסאפ: שלחת תגובה באורך 3 אותיות בלבד",
+                            bottomText: "שדרג מיד ל'צודקת חיים שלי, את אלופה' כדי לשמור על שלום בית 🛡️❤️",
+                            whatsappCaption: "רמז דק: מותר להשתמש ביותר ממילה אחת בהודעה 😂💬"
+                        }
+                    ]
+                },
+                {
+                    id: "half_question_answer",
+                    icon: "❓",
+                    title: "שואלים אותו 3 שאלות בהודעה והוא עונה רק על אחת",
+                    complaint: "אני שואלת אותו בהודעה מתי הוא יוצא, אם לקנות חלב ומה בא לו לאכול בערב, והוא עונה רק 'כן'",
+                    category: "gaming",
+                    format: "setup_punch",
+                    actionItem: "לקרוא את כל ההודעה ולענות על שתי השאלות הנוספות שנותרו יתומות.",
+                    broExplanation: "המוח הגברי בוואטסאפ קורא רק את השורה האחרונה בהודעה. כשמציגים את זה כמשימה שהושלמה רק ב-33%, הוא קולט מיד שפספס שתי שאלות וחוזר להשלים.",
+                    imagePrompt: "Funny confused guy looking at three glowing floating question marks in the air and swatting only one of them like a video game character, colorful comedic digital illustration, no text",
+                    options: [
+                        {
+                            topText: "שאלתי אותך 3 שאלות שונות בהודעה וענית לי רק: 'סבבה'",
+                            bottomText: "השלמת 33% מהמשימה! מה עם שתי השאלות הראשונות אח שלי? 🎮📝",
+                            whatsappCaption: "נשארו לך עוד 2 שאלות פתוחות בהודעה למעלה כדי לסיים את השלב 😂"
+                        },
+                        {
+                            topText: "כשאתה עונה 'כן' על שאלה של 'מתי אתה חוזר ומה אוכלים הערב?'...",
+                            bottomText: "...ומשאיר אותי לנחש אם 'כן' זה שעה או סוג של פיצה 🍕🤔",
+                            whatsappCaption: "תגלול שנייה למעלה, פספסת 2 שאלות בדרך 😘😂"
+                        },
+                        {
+                            topText: "התראת קשב וריכוז: קראת רק את ה-4 מילים האחרונות בהודעה שלי",
+                            bottomText: "חזור לתחילת ההודעה לקבלת בונוס הבנת הנקרא 🏆📱",
+                            whatsappCaption: "חידון מהיר: מה הייתה השאלה הראשונה ששאלתי? 😂"
+                        }
+                    ]
+                },
+                {
+                    id: "late_update",
+                    icon: "⏰",
+                    title: "״אני יוצא עוד 5 דקות״ (לפני שעה)",
+                    complaint: "הוא אומר 'אני כבר יוצא, 5 דקות בדרך' ואז עוברת שעה והוא עדיין לא באוטו ולא שולח עדכון",
+                    category: "football",
+                    format: "var_alert",
+                    actionItem: "לשלוח מיקום/זמן הגעה אמיתי עכשיו ולהביא משהו טעים כפיצוי על תוספת הזמן.",
+                    broExplanation: "5 דקות של גבר שמתארגן או מסיים שיחה זה תוספת זמן של מונדיאל. הומור על 'שעון דקה 90' גורם לו לעדכן מיד איפה הוא עומד.",
+                    imagePrompt: "Funny sports announcer looking at a giant stopwatch showing 90+45 minutes extra time while a guy casually ties his shoes in slow motion, bright comedic photography, no text",
+                    options: [
+                        {
+                            topText: "ה-'5 דקות אני יוצא' שלך כבר הגיע לדקה ה-90 פלוס הארכה ופנדלים",
+                            bottomText: "שלח מיקום חי או תביא איתך משהו מתוק כקנס פיגורים 🍫⏱️",
+                            whatsappCaption: "באיזו דקה אנחנו במשחק של '5 דקות יוצא'? 😂⚽"
+                        },
+                        {
+                            topText: "כשאתה אומר 'אני כבר באוטו' אבל אני שומעת ברקע שעדיין לא נעלת נעליים...",
+                            bottomText: "...תעדכן זמן אמת לפני שהרעב שלי עובר למצב חירום 🚨🍔",
+                            whatsappCaption: "דיווח תנועה אמין יתקבל בברכה עכשיו 😘🚗"
+                        },
+                        {
+                            topText: "זמן רגיל בכדור הארץ: 60 שניות בדקה",
+                            bottomText: "זמן 'אני כבר יוצא מאמי': שעה ורבע וטרם נצפתה תזוזה בחניון 🛸⏳",
+                            whatsappCaption: "המערכת ממתינה לעדכון שעת נחיתה משוערת 😂❤️"
+                        }
+                    ]
+                }
+            ],
+            food: [
+                {
+                    id: "initiate_food_order",
+                    icon: "🍕",
+                    title: "שיזום וייקח פיקוד על הזמנת אוכל לבד!",
+                    complaint: "בא לי שהוא יזום, יחליט ויזמין לנו אוכל טעים הערב בלי לשאול אותי 20 פעם 'מה בא לך' ולהפיל עליי את הניהול",
+                    category: "food",
+                    format: "setup_punch",
+                    actionItem: "לפתוח וולט עכשיו, להזמין את המקום שאתם אוהבים ולהודיע לך: 'הזמנתי לנו, השליח בדרך'.",
+                    broExplanation: "גברים מתים על משימות הצלה פשוטות עם פתרון מיידי. כשאת אומרת לו בדיוק שהמשפט הכי רומנטי בעולם הוא 'הזמנתי לנו אוכל', הוא מרגיש גיבור-על בפעולה.",
+                    imagePrompt: "Heroic funny man wearing a superhero cape holding a glowing takeout pizza box and burger bag like a royal crown, dramatic golden lighting, hilarious facial expression, no text",
+                    options: [
+                        {
+                            topText: "טיפ זהב לשלום בית: המשפט הכי סקסי בעברית הוא לא 'אני אוהב אותך'...",
+                            bottomText: "...אלא: 'מאמי אל תדאגי לכלום, כבר הזמנתי לנו אוכל והשליח בדרך' 🛵🍕",
+                            whatsappCaption: "סתם משאירה פה רמז קולינרי דק לקראת הערב 😂🍔"
+                        },
+                        {
+                            topText: "מד הסוכר והסבלנות שלי ירד ל-12% עקב רעב מתקדם",
+                            bottomText: "קח פיקוד, תזמין לנו משהו טעים בלי לשאול 'מה בא לך' ותצא מלך העולם 👑🍟",
+                            whatsappCaption: "זה הרגע שלך לזרוח עם הזמנה מפתיעה בוולט 😘🛵"
+                        },
+                        {
+                            topText: "כשאתה שואל אותי ב-21:30 בלילה 'אז מה אוכלים היום?'...",
+                            bottomText: "...במקום פשוט להופיע עם שקית משלוח וקינוח ולהציל את המולדת 🦸‍♂️🍫",
+                            whatsappCaption: "רמז: התשובה הנכונה כוללת שליח בדלת תוך חצי שעה 😂🍕"
+                        }
+                    ]
+                },
+                {
+                    id: "stealing_fries",
+                    icon: "🍟",
+                    title: "מחסל לי את המנה אחרי שאמר ש״הוא לא רעב״",
+                    complaint: "הוא אומר לי להזמין רק לעצמי כי הוא לא רעב בכלל, ואז ברגע שהאוכל מגיע הוא אוכל לי חצי מהמנה ומהצ'יפס",
+                    category: "food",
+                    format: "pov_when",
+                    actionItem: "להזמין מנה נוספת או קינוח מפנק עכשיו כדי לפצות על מס הצ'יפס שנלקח.",
+                    broExplanation: "כולם מכירים את הבדיחה על חברה שלוקחת צ'יפס, אבל כשגבר 'לא רעב' טורף חצי המבורגר ב-2 ביסים, מים הפוך על הסיטואציה גורם לו לצחוק ולהזמין לך פיצוי מיידי.",
+                    imagePrompt: "Funny man with a guilty caught-in-the-act expression holding a giant handful of french fries next to an empty plate, dramatic spotlight, vibrant comedy photography, no text",
+                    options: [
+                        {
+                            topText: "כשאתה מצהיר 'אני לא רעב, תזמיני רק לך'...",
+                            bottomText: "...ובביס אחד שלך נעלם לי 60% מהצ'יפס! תזמין קינוח פיצוי ומיד 🍟🚨",
+                            whatsappCaption: "רשות המסים דורשת פיצוי מתוק על הצ'יפס שנעלם 😂🍫"
+                        },
+                        {
+                            topText: "'רק טועם לך ביס קטן מהמנה':",
+                            bottomText: "הביס הקטן שלך השאיר לי רק את החסה והמפית! פתח וולט למקצה שיפורים 🍔😂",
+                            whatsappCaption: "פעם הבאה מזמינים כפול מראש, בינתיים חייב לי קינוח 😘"
+                        },
+                        {
+                            topText: "בדיקת VAR על השולחן: לקחת 8 צ'יפסים תחת הסעיף 'אני שבע'",
+                            bottomText: "השופטת פוסקת: הזמנת גלידה או שוקולד מיידית ליישור ההדורים 🍦⚖️",
+                            whatsappCaption: "השופטת ממתינה לפיצוי מתוק 😂🍨"
+                        }
+                    ]
+                }
+            ],
+            couch: [
+                {
+                    id: "falls_asleep_movie",
+                    icon: "🎬",
+                    title: "נרדם 4 דקות אחרי שהתחלנו סרט שבחרנו שעה",
+                    complaint: "בזבזנו 45 דקות על לבחור סרט בנטפליקס שהוא התעקש עליו, ואחרי 4 דקות מהפתיחה הוא כבר נוחר על הספה",
+                    category: "classic",
+                    format: "expectation_reality",
+                    actionItem: "להבטיח שמחר בערב אני בוחרת את הסרט לבד בלי משא ומתן + אתה אחראי על הפופקורן והמסאז' ברגליים.",
+                    broExplanation: "גבר שנרדם מול סרט תמיד יטען שהוא 'רק עצם עיניים'. המים צוחק על הקלאסיקה הזו ונותן לך זכות וטו אוטומטית על הבחירה הבאה בנטפליקס.",
+                    imagePrompt: "Hilarious scene of a man sound asleep and snoring on a living room couch holding a TV remote and popcorn bowl while the movie 'Directed by' opening credits are still on screen, cozy comedic style, no text",
+                    options: [
+                        {
+                            topText: "45 דקות מתווכחים איזה סרט לראות כי 'בא לך אקשן איכותי'",
+                            bottomText: "דקה 03:42 של הסרט: אתה נוחר בסראונד ואני רואה לבד. מחר אני בוחרת + מסאז'! 🍿😴",
+                            whatsappCaption: "תיעוד נדיר שלך 'רק ממצמץ לאט' מול הטלוויזיה 😂🎬"
+                        },
+                        {
+                            topText: "כשאתה נשבע שאתה ערני לגמרי לפרק החדש...",
+                            bottomText: "...ונרדם עוד לפני שהסתיים הלוגו של נטפליקס! חייב לי ערב פינוק 🛋️✨",
+                            whatsappCaption: "הפסדת את כל העלילה בדקה הראשונה, מחר הפופקורן עליך 😘🍿"
+                        },
+                        {
+                            topText: "המשפט הקלאסי: 'אני לא ישן, אני מקשיב עם עיניים עצומות'",
+                            bottomText: "אחי, נחרת עכשיו בסולם דו-מז'ור! פיצוי: שוקולד וחיבוק כשאתה מתעורר 🍫😂",
+                            whatsappCaption: "כשאתה מתעורר מהשנ״צ הלא רשמי שלך תכין לנו תה 😂☕"
+                        }
+                    ]
+                },
+                {
+                    id: "one_more_game",
+                    icon: "🎮",
+                    title: "״עוד משחק אחד בפיפ״א/קול אוף דיוטי ואני בא״",
+                    complaint: "הוא אומר 'רק עוד משחק אחרון עם החבר'ה ואני איתך', וכבר עברו 3 משחקים והארכה",
+                    category: "gaming",
+                    format: "var_alert",
+                    actionItem: "לסגור את הקונסולה בסיום המשחק הנוכחי ולבוא לספה עם חיבוק ונשנוש.",
+                    broExplanation: "מדבר אליו ישירות בשפת הגיימינג: המשימה הראשית (Main Quest) בסלון מהבהבת באדום ומחכה לו עם בונוס שווה.",
+                    imagePrompt: "Funny gamer guy with headphones looking nervously between his glowing game controller and a flashing 'Wife Attention Needed - Boss Level' hologram alert in the living room, vibrant comic art, no text",
+                    options: [
+                        {
+                            topText: "התראת גיימינג: ה-'עוד משחק אחרון ודי' שלך נכנס לשעה השנייה",
+                            bottomText: "ה-Main Quest שלך מחכה בסלון ודורשת חיבוק ונשנוש לפני שמד ה-HP מתאפס 🎮❤️",
+                            whatsappCaption: "שדר מיוחד לחדר הגיימינג: הבוס האמיתי מחכה בסלון 😂🛋️"
+                        },
+                        {
+                            topText: "כשאתה אומר לחבר'ה באוזנייה 'משחק אחרון חברים'...",
+                            bottomText: "...אבל שוכח לציין שזה משחק אחרון לעונת 2026! בוא לספה ומיד 🏆😘",
+                            whatsappCaption: "נגמר הזמן החוקי של הטורניר, מחכה לך עם שמיכה בסלון 😂❤️"
+                        },
+                        {
+                            topText: "בדיקת VAR על הפלייסטיישן: הובטח סיום משחק לפני 35 דקות",
+                            bottomText: "כבה שלט, הבא שוקולד מהמטבח וקבל בונוס שלום בית מיידי 🍫🎮",
+                            whatsappCaption: "הודיעה זו נשלחה מטעם הנהלת הסלון 😘🎮"
+                        }
+                    ]
+                }
+            ],
+            romance: [
+                {
+                    id: "cuddle_attention",
+                    icon: "🫂",
+                    title: "בא לי חיבוק, צומי או מחמאה בלי לבקש רשמית",
+                    complaint: "התלבשתי יפה / חזרתי מיום מתיש ואני רוצה שהוא ייתן לי חיבוק ענק ומחמאה בלי שאצטרך לבקש 'תן לי צומי'",
+                    category: "gaming",
+                    format: "setup_punch",
+                    actionItem: "לעזוב את הטלפון, לבוא לתת חיבוק של 30 שניות מלאות ולהגיד לה כמה היא מהממת.",
+                    broExplanation: "לפעמים גברים פשוט שקועים במסך ולא קולטים את האיתותים. המים הופך את הבקשה לחיבוק ל'טעינת סוללה' חמודה ומצחיקה שהוא ישמח לבצע מיד.",
+                    imagePrompt: "Cute funny scene of a glowing smartphone battery icon hovering above a woman's head at 5% red battery, waiting for a warm hug recharge from her smiling partner, Pixar style comedy illustration, no text",
+                    options: [
+                        {
+                            topText: "התראת סוללה חלשה: מד הצומי והחיבוקים של אשתך ירד ל-4% 🪫",
+                            bottomText: "עזוב את הטלפון ובוא לחיבוק טעינה מהירה של 30 שניות + מחמאה עכשיו ⚡🫂",
+                            whatsappCaption: "דרוש מטען אנושי דחוף בסלון 😘🔋"
+                        },
+                        {
+                            topText: "כשאתה יושב מולי 20 דקות ועוד לא שמת לב שמשהו בי נראה פגז היום...",
+                            bottomText: "...זה הרגע שלך לזרוק מחמאה מוגזמת ולצאת הגבר הכי חד בחדר 😍✨",
+                            whatsappCaption: "נותנת לך רמז של אלופים, תסתכל עליי שנייה 😂💅"
+                        },
+                        {
+                            topText: "משימת בונוס יומית נפתחה: קום מהספה, תן חיבוק מוחץ ונשיקה במצח",
+                            bottomText: "פרס מובטח: חיוך מאוזן לאוזן ושקט תעשייתי ל-24 שעות הקרובות 🏆❤️",
+                            whatsappCaption: "המשימה הכי קלה והכי משתלמת שלך להיום 😘🫂"
+                        }
+                    ]
+                },
+                {
+                    id: "date_night_initiative",
+                    icon: "🍷",
+                    title: "שיזום דייט או יציאה שווה בלי שאני אארגן הכל",
+                    complaint: "בא לי שהוא יגיד 'תתלבשי יפה, הזמנתי לנו מקום להערב' במקום שאני תמיד אהיה ועדת תרבות",
+                    category: "classic",
+                    format: "setup_punch",
+                    actionItem: "להזמין שולחן למקום שווה ולהגיד לך: 'תתלבשי יפה ב-20:30, כל השאר עליי'.",
+                    broExplanation: "נותן לו את התסריט המדויק להצלחה מובטחת בלי שהוא יצטרך לנחש מה את רוצה. ברגע שיש לו הוראות הפעלה ברורות בפורמט הומוריסטי, הוא עף על זה.",
+                    imagePrompt: "Funny suave man dressed like James Bond holding two glasses of wine and a restaurant reservation ticket with a wink, cinematic romantic comedy style, no text",
+                    options: [
+                        {
+                            topText: "רוצה לדעת איך גורמים לי להתאהב בך מחדש תוך 4 שניות?",
+                            bottomText: "שלח לי: 'סגרתי לנו מקום להערב ב-20:30, רק תתלבשי יפה' 🍷✨",
+                            whatsappCaption: "סתם טיפ לחיים טובים מוועדת תרבות שהתעייפה לתכנן לבד 😘🥂"
+                        },
+                        {
+                            topText: "התפטרתי רשמית מתפקיד מפיקת האירועים והדייטים של הבית",
+                            bottomText: "הכדור במגרש שלך קפטן – תפתיע אותנו עם יציאה שווה השבוע! ⚽🍸",
+                            whatsappCaption: "מעבירה אליך את סרט הקפטן של הדייט הקרוב 😂🍷"
+                        },
+                        {
+                            topText: "כששנינו יושבים בטרנינג על הספה כבר ערב חמישי ברציפות...",
+                            bottomText: "...זה הסימן מהיקום שתזמין לנו שולחן על הבר ותוציא אותנו להתאוורר 🥂🚀",
+                            whatsappCaption: "היקום רומז שבא לנו דרינק ונשנוש בחוץ 😘✨"
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // Application State
+        const state = {
+            activeTab: "home",
+            selectedPresetId: "dish_sink",
+            complaint: PRESET_LIBRARY.home[0].complaint,
+            category: "football",
+            format: "var_alert",
+            intensity: 2,
+            options: PRESET_LIBRARY.home[0].options,
+            currentOptionIndex: 0,
+            topText: PRESET_LIBRARY.home[0].options[0].topText,
+            bottomText: PRESET_LIBRARY.home[0].options[0].bottomText,
+            whatsappCaption: PRESET_LIBRARY.home[0].options[0].whatsappCaption,
+            actionItem: PRESET_LIBRARY.home[0].actionItem,
+            broExplanation: PRESET_LIBRARY.home[0].broExplanation,
+            imagePrompt: PRESET_LIBRARY.home[0].imagePrompt,
+            fontSize: 44,
+            textStyleIndex: 0, // 0: Classic Stroke, 1: Modern Card Box, 2: Split Top/Bottom Bar
+            currentImageObj: null,
+            imageSeed: Math.floor(Math.random() * 999999)
+        };
+
+        const textStyles = [
+            { name: "קלאסי", mode: "classic" },
+            { name: "כרטיס מודרני", mode: "box" },
+            { name: "פסי כותרת", mode: "bars" }
+        ];
+
+        const categoryLabels = {
+            football: "כדורגל וספורט (שופט, בדיקת VAR, כרטיס צהוב/אדום, דקה 90, ליגת האלופות)",
+            gaming: "גיימינג ומשימות (Side Quest, מד חיים HP, נקודות XP, שלב הבוס)",
+            food: "אוכל, וולט ופינוקים (משלוח חירום, מד סוכר, פיצוי מתוק, שליח בדרך)",
+            classic: "הומור זוגי ישראלי חד, שנון, ציני קליל ובגובה העיניים"
+        };
+
+        const formatLabels = {
+            setup_punch: "פתיחה ופאנץ' משלים: שורה עליונה בונה את הסיטואציה או השאלה, ושורה תחתונה מפילה את הפאנץ' הישיר שמשלים אותה בצורה קורעת.",
+            pov_when: "כש... / POV: שורה עליונה מתחילה ב-'כשאתה...' ומתארת את ההתנהגות המצחיקה שלו, ושורה תחתונה ממשיכה את אותו משפט עם '...ומצפה ש...' או התוצאה הקומית.",
+            expectation_reality: "איך שהוא מרגיש מול המציאות: שורה עליונה מתארת איך הוא בטוח שהוא יצא אלוף עולם, ושורה תחתונה חושפת את המציאות המשעשעת ומה הוא צריך לעשות עכשיו.",
+            var_alert: "בדיקת VAR / התראת מערכת: שורה עליונה היא הכרזה רשמית של שופטי ה-VAR או מערכת הזוגיות על האירוע, ושורה תחתונה היא פסק הדין והפעולה הנדרשת לתיקון."
+        };
+
+        const intensityLabels = {
+            1: { badge: "רמה 1: עקיצה אלגנטית עם קריצה 😉", desc: "רמז שנון ואלגנטי עם קריצה חכמה" },
+            2: { badge: "רמה 2: ברור לגמרי אבל עם חיוך 😏", desc: "רמז ברור לגמרי שאי אפשר לפספס אבל עטוף בהומור מעולה" },
+            3: { badge: "רמה 3: שלט ניאון מהבהב (אבל קורע) 🚨", desc: "ישיר, מוגזם וקורע מצחוק שקורא לפעולה מיידית" }
+        };
+
+        // DOM Elements
+        const presetTabsContainer = document.getElementById('presetTabsContainer');
+        const presetCardsGrid = document.getElementById('presetCardsGrid');
+        const complaintInput = document.getElementById('complaintInput');
+        const clearInputBtn = document.getElementById('clearInputBtn');
+        const formatButtons = document.querySelectorAll('.format-card');
+        const categoryButtons = document.querySelectorAll('.category-card');
+        const intensitySlider = document.getElementById('intensitySlider');
+        const intensityBadge = document.getElementById('intensityBadge');
+        const generateBtn = document.getElementById('generateBtn');
+        const regenerateAngleBtn = document.getElementById('regenerateAngleBtn');
+        const newAiImageBtn = document.getElementById('newAiImageBtn');
+        const cyclePunchlineBtn = document.getElementById('cyclePunchlineBtn');
+        const punchlineCounterLabel = document.getElementById('punchlineCounterLabel');
+        const errorBanner = document.getElementById('errorBanner');
+
+        const memeCanvas = document.getElementById('memeCanvas');
+        const ctx = memeCanvas.getContext('2d');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingEmoji = document.getElementById('loadingEmoji');
+        const loadingTitle = document.getElementById('loadingTitle');
+        const loadingSubtitle = document.getElementById('loadingSubtitle');
+        const loadingBar = document.getElementById('loadingBar');
+
+        const topTextInput = document.getElementById('topTextInput');
+        const bottomTextInput = document.getElementById('bottomTextInput');
+        const fontSizeSlider = document.getElementById('fontSizeSlider');
+        const styleToggleBtn = document.getElementById('styleToggleBtn');
+        const styleToggleLabel = document.getElementById('styleToggleLabel');
+
+        const downloadMemeBtn = document.getElementById('downloadMemeBtn');
+        const copyWhatsappBtn = document.getElementById('copyWhatsappBtn');
+        const whatsappCaptionText = document.getElementById('whatsappCaptionText');
+        const actionItemText = document.getElementById('actionItemText');
+        const broExplanationText = document.getElementById('broExplanationText');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+
+        // Show Toast Notification
+        function showToast(msg) {
+            toastMessage.textContent = msg;
+            toast.classList.remove('opacity-0', 'translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-4');
+            }, 2600);
+        }
+
+        // Exponential Backoff Fetch
+        async function fetchWithRetry(url, options, maxRetries = 2) {
+            let delay = 800;
+            for (let attempt = 0; attempt <= maxRetries; attempt++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (response.ok) {
+                        return await response.json();
+                    }
+                    if (attempt === maxRetries) {
+                        throw new Error(`HTTP Error ${response.status}`);
+                    }
+                } catch (err) {
+                    if (attempt === maxRetries) throw err;
+                }
+                await new Promise(r => setTimeout(r, delay));
+                delay *= 1.8;
+            }
+        }
+
+        // Render Categorized Preset Cards
+        function renderPresetCards() {
+            const list = PRESET_LIBRARY[state.activeTab] || [];
+            presetCardsGrid.innerHTML = '';
+
+            list.forEach(item => {
+                const isSelected = item.id === state.selectedPresetId;
+                const card = document.createElement('button');
+                card.type = 'button';
+                card.className = `preset-card text-right p-3 rounded-xl border-2 bg-white flex items-start gap-2.5 ${isSelected ? 'selected border-rose-600' : 'border-slate-200'}`;
+                card.innerHTML = `
+                    <span class="text-xl shrink-0 mt-0.5">${item.icon}</span>
+                    <div class="min-w-0 flex-1">
+                        <div class="font-bold text-slate-900 text-xs sm:text-sm truncate">${item.title}</div>
+                        <div class="text-[11px] text-slate-500 line-clamp-2 mt-0.5 leading-snug">${item.complaint}</div>
+                    </div>
+                `;
+                card.addEventListener('click', () => selectPresetItem(item));
+                presetCardsGrid.appendChild(card);
+            });
+        }
+
+        // When user clicks a preset card: load complaint, category, format, 3 punchlines AND generate matching AI image
+        async function selectPresetItem(item) {
+            state.selectedPresetId = item.id;
+            state.complaint = item.complaint;
+            state.category = item.category;
+            state.format = item.format;
+            state.options = item.options;
+            state.currentOptionIndex = 0;
+            state.actionItem = item.actionItem;
+            state.broExplanation = item.broExplanation;
+            state.imagePrompt = item.imagePrompt;
+
+            // Update UI selections
+            complaintInput.value = item.complaint;
+            clearInputBtn.classList.remove('hidden');
+            errorBanner.classList.add('hidden');
+
+            categoryButtons.forEach(b => {
+                b.classList.toggle('active', b.getAttribute('data-category') === state.category);
+            });
+            formatButtons.forEach(b => {
+                b.classList.toggle('active', b.getAttribute('data-format') === state.format);
+            });
+
+            renderPresetCards();
+            applyCurrentOptionToUI();
+
+            // Immediately generate a tailored AI image for this preset
+            await triggerAiImageUpdate(state.imagePrompt, true);
+        }
+
+        // Apply current option from the 3 punchline options to inputs and canvas
+        function applyCurrentOptionToUI() {
+            const opt = state.options[state.currentOptionIndex] || state.options[0];
+            state.topText = opt.topText;
+            state.bottomText = opt.bottomText;
+            state.whatsappCaption = opt.whatsappCaption;
+
+            topTextInput.value = state.topText;
+            bottomTextInput.value = state.bottomText;
+            whatsappCaptionText.textContent = state.whatsappCaption;
+            actionItemText.textContent = state.actionItem;
+            broExplanationText.textContent = state.broExplanation;
+            punchlineCounterLabel.textContent = `החלף פאנץ' (${state.currentOptionIndex + 1}/${state.options.length}) 🔄`;
+
+            renderMemeCanvas();
+        }
+
+        // Rich illustrated canvas fallback (only used while waiting or if completely offline)
+        function createIllustratedFallback(category) {
+            const offscreen = document.createElement('canvas');
+            offscreen.width = 900;
+            offscreen.height = 900;
+            const octx = offscreen.getContext('2d');
+
+            const palettes = {
+                football: ['#064e3b', '#047857', '#10b981'],
+                gaming: ['#1e1b4b', '#4338ca', '#7c3aed'],
+                food: ['#7c2d12', '#d97706', '#f59e0b'],
+                classic: ['#4c0519', '#be123c', '#f43f5e']
+            };
+            const pal = palettes[category] || palettes.football;
+            const grad = octx.createRadialGradient(450, 450, 80, 450, 450, 620);
+            grad.addColorStop(0, pal[2]);
+            grad.addColorStop(0.55, pal[1]);
+            grad.addColorStop(1, pal[0]);
+            octx.fillStyle = grad;
+            octx.fillRect(0, 0, 900, 900);
+
+            octx.save();
+            octx.translate(450, 450);
+            octx.fillStyle = 'rgba(255,255,255,0.06)';
+            for (let i = 0; i < 16; i++) {
+                octx.beginPath();
+                octx.moveTo(0, 0);
+                octx.arc(0, 0, 700, (i * Math.PI) / 8, (i * Math.PI) / 8 + 0.18);
+                octx.closePath();
+                octx.fill();
+            }
+            octx.restore();
+
+            octx.beginPath();
+            octx.arc(450, 450, 200, 0, Math.PI * 2);
+            octx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+            octx.fill();
+
+            const emojis = {
+                football: '🤸‍♀️⚽📺',
+                gaming: '🎮⚡🏆',
+                food: '🍕🛵🍫',
+                classic: '😏☕🎯'
+            };
+            octx.font = '125px sans-serif';
+            octx.textAlign = 'center';
+            octx.textBaseline = 'middle';
+            octx.fillText(emojis[category] || '🤸‍♀️⚽📺', 450, 450);
+
+            const img = new Image();
+            img.src = offscreen.toDataURL();
+            return img;
+        }
+
+        // Wrap RTL Hebrew text into lines that fit maxWidth
+        function wrapHebrewText(context, text, maxWidth) {
+            if (!text || !text.trim()) return [];
+            const words = text.trim().split(/\s+/);
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                const testLine = currentLine + " " + words[i];
+                const metrics = context.measureText(testLine);
+                if (metrics.width > maxWidth) {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                } else {
+                    currentLine = testLine;
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        // Render the Meme on the HTML5 Canvas (AI Image + Crisp RTL Hebrew Text)
+        function renderMemeCanvas() {
+            const width = memeCanvas.width;
+            const height = memeCanvas.height;
+            ctx.clearRect(0, 0, width, height);
+
+            const currentStyle = textStyles[state.textStyleIndex];
+            const fontSize = parseInt(state.fontSize, 10) || 44;
+            const lineHeight = fontSize * 1.24;
+            const maxWidth = width - 84;
+
+            // 1. Draw Background AI Image
+            if (state.currentImageObj && state.currentImageObj.complete && state.currentImageObj.naturalWidth > 0) {
+                const img = state.currentImageObj;
+                const imgRatio = img.width / img.height;
+                const canvasRatio = width / height;
+                let drawW = width, drawH = height, offsetX = 0, offsetY = 0;
+
+                if (imgRatio > canvasRatio) {
+                    drawW = height * imgRatio;
+                    offsetX = -(drawW - width) / 2;
+                } else {
+                    drawH = width / imgRatio;
+                    offsetY = -(drawH - height) / 2;
+                }
+                ctx.drawImage(img, offsetX, offsetY, drawW, drawH);
+            } else {
+                ctx.fillStyle = '#1e293b';
+                ctx.fillRect(0, 0, width, height);
+            }
+
+            // 2. Vignette / Bars based on selected layout mode
+            ctx.save();
+            ctx.direction = 'rtl';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.font = `900 ${fontSize}px "Secular One", "Heebo", "Rubik", sans-serif`;
+
+            const topLines = wrapHebrewText(ctx, state.topText, maxWidth);
+            const bottomLines = wrapHebrewText(ctx, state.bottomText, maxWidth);
+
+            if (currentStyle.mode === 'bars') {
+                // Top & bottom solid dark meme bars
+                const topBarH = Math.max(130, topLines.length * lineHeight + 52);
+                const botBarH = Math.max(135, bottomLines.length * lineHeight + 58);
+                ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
+                ctx.fillRect(0, 0, width, topBarH);
+                ctx.fillRect(0, height - botBarH, width, botBarH);
+
+                // Accent line
+                ctx.fillStyle = '#f43f5e';
+                ctx.fillRect(0, topBarH - 4, width, 4);
+                ctx.fillStyle = '#f59e0b';
+                ctx.fillRect(0, height - botBarH, width, 4);
+            } else {
+                // Classic or Box mode: smooth dark vignette gradients for readability
+                const topGrad = ctx.createLinearGradient(0, 0, 0, 290);
+                topGrad.addColorStop(0, 'rgba(0,0,0,0.78)');
+                topGrad.addColorStop(1, 'rgba(0,0,0,0)');
+                ctx.fillStyle = topGrad;
+                ctx.fillRect(0, 0, width, 290);
+
+                const botGrad = ctx.createLinearGradient(0, height - 310, 0, height);
+                botGrad.addColorStop(0, 'rgba(0,0,0,0)');
+                botGrad.addColorStop(1, 'rgba(0,0,0,0.84)');
+                ctx.fillStyle = botGrad;
+                ctx.fillRect(0, height - 310, width, 310);
+            }
+
+            // Helper to draw a block of lines
+            function drawTextBlock(lines, startY, isBottom = false) {
+                lines.forEach((line, idx) => {
+                    const y = startY + idx * lineHeight;
+
+                    if (currentStyle.mode === 'box') {
+                        const textMetrics = ctx.measureText(line);
+                        const padX = 26;
+                        const padY = 10;
+                        const boxW = Math.min(width - 36, textMetrics.width + padX * 2);
+                        const boxH = fontSize + padY * 2;
+                        ctx.save();
+                        ctx.fillStyle = isBottom ? 'rgba(225, 29, 72, 0.9)' : 'rgba(15, 23, 42, 0.86)';
+                        ctx.beginPath();
+                        ctx.roundRect((width - boxW) / 2, y - boxH / 2, boxW, boxH, 16);
+                        ctx.fill();
+                        ctx.restore();
+                    }
+
+                    // Thick outer stroke for crisp Hebrew legibility
+                    ctx.lineJoin = 'round';
+                    ctx.miterLimit = 2;
+                    ctx.lineWidth = currentStyle.mode === 'box' ? 5 : Math.max(8, Math.round(fontSize * 0.22));
+                    ctx.strokeStyle = '#000000';
+                    ctx.shadowColor = 'rgba(0,0,0,0.6)';
+                    ctx.shadowBlur = 10;
+                    ctx.shadowOffsetY = 3;
+                    ctx.strokeText(line, width / 2, y);
+
+                    // Fill text (Bottom punchline highlighted in warm gold in classic/bars mode for clear connection)
+                    ctx.shadowBlur = 0;
+                    ctx.shadowOffsetY = 0;
+                    ctx.fillStyle = (isBottom && currentStyle.mode !== 'box') ? '#FDE047' : '#FFFFFF';
+                    ctx.fillText(line, width / 2, y);
+                });
+            }
+
+            // Draw Top Text
+            if (topLines.length > 0) {
+                const startTopY = 50 + fontSize / 2;
+                drawTextBlock(topLines, startTopY, false);
+            }
+
+            // Draw Bottom Text
+            if (bottomLines.length > 0) {
+                const totalBottomHeight = (bottomLines.length - 1) * lineHeight;
+                const startBottomY = height - 60 - totalBottomHeight;
+                drawTextBlock(bottomLines, startBottomY, true);
+            }
+
+            // Subtle watermark badge in bottom-left corner
+            ctx.font = '700 17px "Rubik", sans-serif';
+            ctx.fillStyle = 'rgba(255,255,255,0.65)';
+            ctx.textAlign = 'left';
+            ctx.fillText('על חבל דק 🤸‍♀️', 22, height - 18);
+
+            ctx.restore();
+        }
+
+        // Step 1: Call Gemini Text Model to craft 3 tightly connected Hebrew Meme Options + Image Prompt
+        async function generateMemeConcept(complaint, category, format, intensity) {
+            const systemPrompt = `אתה קופירייטר קומי ישראלי מבריק ומומחה לזוגיות ("על חבל דק").
+המשימה שלך: לקחת תלונה שקטה של אישה על בן הזוג שלה ולהפוך אותה למים (Meme) קורע מצחוק, שנון ונטול מבוכה שהגבר יבין תוך 2 שניות.
+
+חוק ברזל קריטי - קשר הדוק וישיר בין השורה העליונה לשורה התחתונה:
+לעולם אל תכתוב שני משפטים מנותקים! השורה העליונה (topText) והשורה התחתונה (bottomText) חייבות להיות שני חלקים של אותה בדיחה בדיוק:
+- השורה העליונה בונה את ההגשה / הסיטואציה / תחילת המשפט.
+- השורה התחתונה משלימה ישירות את המשפט או מפילה את הפאנץ' הקומי עם הרמז המעשי.
+
+דוגמאות מצוינות לקשר הדוק בין השורות:
+דוגמה 1 (הצלחת ליד המדיח):
+topText: "בדיקת VAR במטבח: הצלחת עברה 99% מהדרך מהשולחן לכיור"
+bottomText: "פספסת ב-10 ס״מ מול מדיח ריק! עוד תנועה ימינה וזה שער ניצחון 🏆"
+
+דוגמה 2 (עונה 'טוב' בוואטסאפ):
+topText: "איך שאתה מרגיש אחרי שענית 'טוב 👍' להודעה של 14 שורות: משורר הדור"
+bottomText: "המציאות: יש לך 60 שניות להוסיף מחמאה ו-3 מילים שלמות לפני כרטיס אדום 🚨"
+
+דוגמה 3 (חיפוש במקרר):
+topText: "כשאתה סורק את המקרר ל-1.2 שניות ומכריז: 'מאמי בדקתי, נגמר!'"
+bottomText: "שלב הבוס: נסה להזיז את החלב סנטימטר הצידה ותגלה אוצר בשורה הראשונה 🕵️‍♂️"
+
+עליך לייצר 3 אופציות שונות ומעולות (options) שכל אחת מהן בנויה משורת פתיחה ופאנץ' מחוברים לגמרי!
+בנוסף, צור imagePrompt באנגלית שמתאר סצנה ויזואלית הומוריסטית ומוגזמת שמתאימה בדיוק לבדיחה (ללא מילים או טקסט בתוך התמונה כלל - NO TEXT IN IMAGE).`;
+
+            const userQuery = `התלונה / הסיטואציה: "${complaint}"
+מבנה הבדיחה המבוקש: ${formatLabels[format]}
+עולם התוכן הגברי: ${categoryLabels[category]}
+עוצמת הרמז: ${intensityLabels[intensity].desc}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "OBJECT",
+                        properties: {
+                            options: {
+                                type: "ARRAY",
+                                items: {
+                                    type: "OBJECT",
+                                    properties: {
+                                        topText: { type: "STRING" },
+                                        bottomText: { type: "STRING" },
+                                        whatsappCaption: { type: "STRING" }
+                                    },
+                                    required: ["topText", "bottomText", "whatsappCaption"]
+                                }
+                            },
+                            actionItemForHim: { type: "STRING" },
+                            broCodeExplanation: { type: "STRING" },
+                            imagePrompt: { type: "STRING" }
+                        },
+                        required: [
+                            "options",
+                            "actionItemForHim",
+                            "broCodeExplanation",
+                            "imagePrompt"
+                        ]
+                    }
+                }
+            };
+
+            const url = `/.netlify/functions/gemini`;
+            const result = await fetchWithRetry(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const rawJson = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (!rawJson) throw new Error("לא התקבל פלט טקסט מהמודל");
+            return JSON.parse(rawJson);
+        }
+
+        // Helper: Load an image URL or DataURL into an HTMLImageElement with CORS support
+        function loadImageElement(src, timeoutMs = 14000) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                if (!src.startsWith('data:')) {
+                    img.crossOrigin = "anonymous";
+                }
+                const timer = setTimeout(() => {
+                    reject(new Error("Image load timeout"));
+                }, timeoutMs);
+
+                img.onload = () => {
+                    clearTimeout(timer);
+                    resolve(img);
+                };
+                img.onerror = (err) => {
+                    clearTimeout(timer);
+                    reject(err);
+                };
+                img.src = src;
+            });
+        }
+
+        // Step 2: Guaranteed Multi-Tier AI Image Generator
+        // Tier 1: Gemini 3.1 Flash Lite Image -> Tier 2: Gemini 3.1 Flash Image -> Tier 3: Pollinations Flux AI Image
+async function generateGuaranteedAiImage(englishImagePrompt, seed) {
+    const cleanPrompt = `${englishImagePrompt}. Funny expressive cinematic comedy scene, vibrant lighting, exaggerated humorous facial expression, centered composition. Strictly NO text, NO letters, NO words, NO watermarks inside the image.`;
+
+    const encodedPrompt = encodeURIComponent(`${cleanPrompt}, comedy photography, expressive face, no text`);
+    const fluxUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=900&height=900&seed=${seed}&nologo=true&model=flux`;
+    return await loadImageElement(fluxUrl, 15000);
+}
+
+        // Trigger only a new AI image for the current meme
+        async function triggerAiImageUpdate(promptToUse, silentOverlay = false) {
+            state.imageSeed = Math.floor(Math.random() * 999999);
+            const targetPrompt = promptToUse || state.imagePrompt || "Funny expressive husband in a domestic comedy situation, vibrant lighting";
+
+            loadingOverlay.classList.remove('hidden');
+            newAiImageBtn.disabled = true;
+            generateBtn.disabled = true;
+            loadingEmoji.textContent = "🎨";
+            loadingTitle.textContent = "מייצרת תמונת AI מותאמת למים...";
+            loadingSubtitle.textContent = "בונה סצנה הומוריסטית חדשה שמתאימה בול לפאנץ'";
+            loadingBar.style.width = "65%";
+
+            try {
+                const imgObj = await generateGuaranteedAiImage(targetPrompt, state.imageSeed);
+                state.currentImageObj = imgObj;
+                loadingBar.style.width = "100%";
+                renderMemeCanvas();
+                if (!silentOverlay) {
+                    showToast("נוצרה תמונת AI חדשה! 🎨✨");
+                }
+            } catch (err) {
+                state.currentImageObj = createIllustratedFallback(state.category);
+                renderMemeCanvas();
+            } finally {
+                loadingOverlay.classList.add('hidden');
+                newAiImageBtn.disabled = false;
+                generateBtn.disabled = false;
+            }
+        }
+
+        // Full Generation Orchestrator (Text + 3 Connected Options + New AI Image)
+        async function handleGenerateMeme() {
+            const complaint = complaintInput.value.trim();
+            if (!complaint) {
+                errorBanner.textContent = "אל תשמרי בבטן! כתבי מה מציק לך או בחרי אחת מהקלאסיקות למעלה 👇";
+                errorBanner.classList.remove('hidden');
+                complaintInput.focus();
+                return;
+            }
+            errorBanner.classList.add('hidden');
+            state.complaint = complaint;
+            state.imageSeed = Math.floor(Math.random() * 999999);
+
+            // Show Loading UI
+            loadingOverlay.classList.remove('hidden');
+            generateBtn.disabled = true;
+            regenerateAngleBtn.disabled = true;
+            newAiImageBtn.disabled = true;
+            loadingEmoji.textContent = "🤸‍♀️";
+            loadingTitle.textContent = "הולכת על חבל דק...";
+            loadingSubtitle.textContent = "מנסחת 3 פאנצ'ים מחוברים שהוא יבין בשנייה";
+            loadingBar.style.width = "38%";
+
+            try {
+                // 1. Generate 3 connected Hebrew meme options & image prompt
+                const concept = await generateMemeConcept(complaint, state.category, state.format, state.intensity);
+
+                if (concept.options && concept.options.length > 0) {
+                    state.options = concept.options;
+                    state.currentOptionIndex = 0;
+                }
+                state.actionItem = concept.actionItemForHim;
+                state.broExplanation = concept.broCodeExplanation;
+                state.imagePrompt = concept.imagePrompt;
+
+                applyCurrentOptionToUI();
+
+                // Update loading state for Step 2 (AI Image Generation)
+                loadingEmoji.textContent = "🎨";
+                loadingTitle.textContent = "מייצרת תמונת AI חדשה למים...";
+                loadingSubtitle.textContent = "מתאימה את ההבעה והסצנה בדיוק לבדיחה";
+                loadingBar.style.width = "78%";
+
+                // 2. Generate Guaranteed AI Image
+                try {
+                    const imgObj = await generateGuaranteedAiImage(state.imagePrompt, state.imageSeed);
+                    state.currentImageObj = imgObj;
+                } catch (imgErr) {
+                    state.currentImageObj = createIllustratedFallback(state.category);
+                }
+
+                loadingBar.style.width = "100%";
+                renderMemeCanvas();
+                showToast("המים החדש מוכן! אפשר גם להחליף בין 3 פאנצ'ים 🔄");
+            } catch (err) {
+                errorBanner.textContent = "אופס, הייתה תקלה קטנה ביצירת המים. נסי ללחוץ שוב!";
+                errorBanner.classList.remove('hidden');
+            } finally {
+                loadingOverlay.classList.add('hidden');
+                generateBtn.disabled = false;
+                regenerateAngleBtn.disabled = false;
+                newAiImageBtn.disabled = false;
+            }
+        }
+
+        // Event Listeners: Category Tabs in Preset Hub
+        presetTabsContainer.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                presetTabsContainer.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.activeTab = btn.getAttribute('data-tab');
+                renderPresetCards();
+            });
+        });
+
+        // Event Listeners: Custom Input
+        complaintInput.addEventListener('input', () => {
+            clearInputBtn.classList.toggle('hidden', !complaintInput.value.trim());
+            if (complaintInput.value.trim()) {
+                errorBanner.classList.add('hidden');
+            }
+        });
+
+        clearInputBtn.addEventListener('click', () => {
+            complaintInput.value = '';
+            clearInputBtn.classList.add('hidden');
+            state.selectedPresetId = null;
+            renderPresetCards();
+            complaintInput.focus();
+        });
+
+        // Event Listeners: Joke Format Selection
+        formatButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                formatButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.format = btn.getAttribute('data-format');
+            });
+        });
+
+        // Event Listeners: Category Selection
+        categoryButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.category = btn.getAttribute('data-category');
+            });
+        });
+
+        // Event Listeners: Intensity Slider
+        intensitySlider.addEventListener('input', (e) => {
+            const val = parseInt(e.target.value, 10);
+            state.intensity = val;
+            intensityBadge.textContent = intensityLabels[val].badge;
+        });
+
+        // Event Listeners: Cycle between the 3 connected punchline options
+        cyclePunchlineBtn.addEventListener('click', () => {
+            if (!state.options || state.options.length === 0) return;
+            state.currentOptionIndex = (state.currentOptionIndex + 1) % state.options.length;
+            applyCurrentOptionToUI();
+            showToast(`עברת לניסוח פאנץ' ${state.currentOptionIndex + 1} מתוך ${state.options.length} 🎯`);
+        });
+
+        // Event Listeners: Live Meme Text Editing
+        topTextInput.addEventListener('input', (e) => {
+            state.topText = e.target.value;
+            renderMemeCanvas();
+        });
+
+        bottomTextInput.addEventListener('input', (e) => {
+            state.bottomText = e.target.value;
+            renderMemeCanvas();
+        });
+
+        fontSizeSlider.addEventListener('input', (e) => {
+            state.fontSize = parseInt(e.target.value, 10);
+            renderMemeCanvas();
+        });
+
+        styleToggleBtn.addEventListener('click', () => {
+            state.textStyleIndex = (state.textStyleIndex + 1) % textStyles.length;
+            styleToggleLabel.textContent = textStyles[state.textStyleIndex].name;
+            renderMemeCanvas();
+        });
+
+        // Generate, Regenerate & New AI Image Buttons
+        generateBtn.addEventListener('click', () => handleGenerateMeme());
+        regenerateAngleBtn.addEventListener('click', () => handleGenerateMeme());
+        newAiImageBtn.addEventListener('click', () => triggerAiImageUpdate(state.imagePrompt, false));
+
+        // Download Meme as PNG
+        downloadMemeBtn.addEventListener('click', () => {
+            renderMemeCanvas();
+            try {
+                const link = document.createElement('a');
+                link.download = `al-hevel-dak-meme-${Date.now()}.png`;
+                link.href = memeCanvas.toDataURL('image/png');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showToast("המים ירד כתמונה! מוכן לשליחה בוואטסאפ 🚀");
+            } catch (err) {
+                showToast("שומרת תמונה...");
+            }
+        });
+
+        // Copy WhatsApp Caption
+        copyWhatsappBtn.addEventListener('click', () => {
+            const textToCopy = whatsappCaptionText.textContent.trim();
+            const tempInput = document.createElement('textarea');
+            tempInput.value = textToCopy;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showToast("ההודעה לוואטסאפ הועתקה ללוח! 💬");
+        });
+
+        // Initialize Default View on Load
+        window.onload = async function () {
+            renderPresetCards();
+            complaintInput.value = state.complaint;
+            clearInputBtn.classList.remove('hidden');
+
+            // Render immediate starter illustration while first AI image loads seamlessly
+            const starterImg = createIllustratedFallback('football');
+            starterImg.onload = async () => {
+                if (!state.currentImageObj) {
+                    state.currentImageObj = starterImg;
+                }
+                if (document.fonts && document.fonts.ready) {
+                    await document.fonts.ready;
+                }
+                applyCurrentOptionToUI();
+            };
+
+            // Automatically load a real AI image for the default preset on startup
+            triggerAiImageUpdate(state.imagePrompt, true);
+        };
+    </script>
+</body>
+</html>
