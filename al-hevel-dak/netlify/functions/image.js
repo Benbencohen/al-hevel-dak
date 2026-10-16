@@ -6,51 +6,93 @@ export default async (req) => {
     try {
         const { prompt, seed } = await req.json();
 
-        // ניתן להגדיר ב-Netlify משתנה סביבה HF_API_KEYS שמכיל מספר מפתחות מופרדים בפסיק
-        // למשל: hf_key1,hf_key2,hf_key3 לחלוקת עומסים של מספר בקשות בשנייה
-        const rawKeys = process.env.HF_API_KEYS || process.env.HF_API_KEY || "";
-        const keys = rawKeys.split(',').map(k => k.trim()).filter(Boolean);
+        // 1. ניסיון ראשון: שימוש ב-GEMINI_API_KEY שכבר קיים אצלך ב-Netlify!
+        const geminiKey = process.env.GEMINI_API_KEY;
+        if (geminiKey) {
+            const geminiImageModels = [
+                "gemini-2.0-flash-exp-image-generation",
+                "gemini-3.1-flash-lite-image",
+                "gemini-3.1-flash-image"
+            ];
 
-        if (keys.length === 0) {
-            return new Response(JSON.stringify({ error: 'No HF keys configured' }), { status: 500 });
-        }
+            for (const modelName of geminiImageModels) {
+                try {
+                    const gUrl = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${geminiKey}`;
+                    const gRes = await fetch(gUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: `${prompt} (seed ${seed})` }] }],
+                            generationConfig: { responseModalities: ['TEXT', 'IMAGE'] }
+                        })
+                    });
 
-        // בחירת מפתח אקראי מתוך המאגר (Load Balancing)
-        const selectedKey = keys[Math.floor(Math.random() * keys.length)];
-
-        const response = await fetch(
-            "https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-schnell",
-            {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${selectedKey}`,
-                    "Content-Type": "application/json",
-                    "x-use-cache": "false"
-                },
-                body: JSON.stringify({
-                    inputs: `${prompt} (seed: ${seed})`
-                })
+                    if (gRes.ok) {
+                        const gData = await gRes.json();
+                        const imgPart = gData?.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
+                        if (imgPart?.inlineData?.data) {
+                            const mime = imgPart.inlineData.mimeType || 'image/png';
+                            return new Response(
+                                JSON.stringify({ dataUrl: `data:${mime};base64,${imgPart.inlineData.data}` }),
+                                { status: 200, headers: { 'Content-Type': 'application/json' } }
+                            );
+                        }
+                    }
+                } catch (e) {
+                    // ממשיך למודל הבא
+                }
             }
-        );
-
-        if (!response.ok) {
-            throw new Error(`HF status ${response.status}`);
         }
 
-        // החזרת התמונה כ-Base64 ישירות לדפדפן (מונע בעיות CORS ב-Canvas)
-        const arrayBuffer = await response.arrayBuffer();
-        const base64 = Buffer.from(arrayBuffer).toString('base64');
-        const mimeType = response.headers.get('content-type') || 'image/jpeg';
+        // 2. ניסיון שני: Hugging Face FLUX.1-schnell (כ-1.5 שניות לתמונה אם הוגדר HF_API_KEYS)
+        const rawHfKeys = process.env.HF_API_KEYS || process.env.HF_API_KEY || "";
+        const hfKeys = rawHfKeys.split(',').map(k => k.trim()).filter(Boolean);
 
-        return new Response(JSON.stringify({ dataUrl: `data:${mimeType};base64,${base64}` }), {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' }
-        });
+        if (hfKeys.length > 0) {
+            const selectedKey = hfKeys[Math.floor(Math.random() * hfKeys.length)];
+            try {
+                const hfRes = await fetch(
+                    "https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-schnell",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Authorization": `Bearer ${selectedKey}`,
+                            "Content-Type": "application/json",
+                            "x-use-cache": "false"
+                        },
+                        body: JSON.stringify({ inputs: `${prompt} (seed: ${seed})` })
+                    }
+                );
 
+                if (hfRes.ok) {
+                    const arrayBuffer = await hfRes.arrayBuffer();
+                    const base64 = Buffer.from(arrayBuffer).toString('base64');
+                    const mimeType = hfRes.headers.get('content-type') || 'image/jpeg';
+                    return new Response(
+                        JSON.stringify({ dataUrl: `data:${mimeType};base64,${base64}` }),
+                        { status: 200, headers: { 'Content-Type': 'application/json' } }
+                    );
+                }
+            } catch (e) {}
+        }
+
+        // 3. ניסיון שלישי: שליפה מהירה מצד השרת במודל Turbo (עוקף חסימת IP של המשתמש)
+        const encoded = encodeURIComponent(prompt);
+        const fastServerUrl = `https://image.pollinations.ai/prompt/${encoded}?width=768&height=768&seed=${seed}&nologo=true&enhance=false&model=turbo`;
+        const fastRes = await fetch(fastServerUrl);
+
+        if (fastRes.ok) {
+            const arrayBuffer = await fastRes.arrayBuffer();
+            const base64 = Buffer.from(arrayBuffer).toString('base64');
+            const mimeType = fastRes.headers.get('content-type') || 'image/jpeg';
+            return new Response(
+                JSON.stringify({ dataUrl: `data:${mimeType};base64,${base64}` }),
+                { status: 200, headers: { 'Content-Type': 'application/json' } }
+            );
+        }
+
+        return new Response(JSON.stringify({ error: 'All server engines busy' }), { status: 502 });
     } catch (err) {
-        return new Response(JSON.stringify({ error: err.message }), {
-            status: 502,
-            headers: { 'Content-Type': 'application/json' }
-        });
+        return new Response(JSON.stringify({ error: err.message }), { status: 500 });
     }
 };
