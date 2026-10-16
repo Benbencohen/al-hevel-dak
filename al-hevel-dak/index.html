@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>על חבל דק - מחולל הממים לזוגיות</title>
     <!-- Tailwind CSS -->
-    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Rubik for UI, Secular One & Heebo for bold Hebrew Meme Typography -->
-    <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
-    <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
-    <link href="[https://fonts.googleapis.com/css2?family=Heebo:wght@700;900&family=Rubik:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Secular+One&display=swap](https://fonts.googleapis.com/css2?family=Heebo:wght@700;900&family=Rubik:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Secular+One&display=swap)" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@700;900&family=Rubik:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Secular+One&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
-    <script src="[https://unpkg.com/lucide@latest](https://unpkg.com/lucide@latest)"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <script>
         tailwind.config = {
@@ -45,6 +45,7 @@
             min-height: 100vh;
         }
 
+        /* Custom Range Slider */
         input[type=range].hint-slider {
             -webkit-appearance: none;
             appearance: none;
@@ -99,6 +100,7 @@
             background-color: #fff1f2;
         }
 
+        /* Tightrope visual animation */
         @keyframes balance-sway {
             0%, 100% { transform: rotate(-4deg) translateY(0px); }
             50% { transform: rotate(4deg) translateY(-2px); }
@@ -119,6 +121,7 @@
     <!-- Header with Tightrope Motif -->
     <header class="max-w-7xl mx-auto pt-6 pb-5 px-4 sm:px-6">
         <div class="relative overflow-hidden bg-white/90 backdrop-blur-md border border-rose-100 rounded-3xl p-5 sm:p-7 shadow-sm">
+            <!-- Decorative Tightrope SVG Line across Header -->
             <div class="hidden md:block absolute top-3 left-12 right-12 pointer-events-none opacity-80">
                 <svg viewBox="0 0 800 32" class="w-full h-8 overflow-visible">
                     <path d="M 0 18 Q 400 28 800 18" stroke="#fda4af" stroke-width="2" stroke-dasharray="6 4" fill="none" />
@@ -129,6 +132,7 @@
 
             <div class="flex flex-col md:flex-row items-center justify-between gap-5 relative z-10">
                 <div class="flex items-center gap-4 text-center md:text-right flex-col sm:flex-row">
+                    <!-- Tightrope Balance Logo Icon -->
                     <div class="relative w-18 h-18 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-rose-500 via-pink-500 to-amber-500 flex flex-col items-center justify-center text-white shadow-lg shadow-rose-200 shrink-0 p-3">
                         <span class="text-3xl tightrope-walker inline-block">🤸‍♀️</span>
                         <div class="w-12 h-0.5 bg-white/90 rounded-full mt-1 shadow-sm"></div>
@@ -153,6 +157,7 @@
                     </div>
                 </div>
 
+                <!-- Balance Meter Pill -->
                 <div class="flex items-center gap-3 bg-gradient-to-l from-amber-50 to-rose-50 border border-rose-200/80 px-4 py-3.5 rounded-2xl text-xs sm:text-sm text-slate-800 shrink-0 shadow-sm">
                     <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-xl shadow-sm shrink-0">⚖️</div>
                     <div>
@@ -167,10 +172,10 @@
     <!-- Main Content Grid -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
-        <!-- RIGHT COLUMN: Presets Hub, Input & Controls -->
+        <!-- RIGHT COLUMN (RTL): Presets Hub, Input & Controls (7 cols on lg) -->
         <section class="lg:col-span-7 bg-white rounded-3xl shadow-xl shadow-rose-100/50 border border-rose-100 p-5 sm:p-7 space-y-6">
             
-            <!-- STEP 1: Rich Categorized Presets Hub -->
+            <!-- STEP 1: Rich Categorized Presets Hub ("ספריית הקלאסיקות הזוגיות") -->
             <div class="bg-slate-50/80 border border-slate-200/90 rounded-2xl p-4 sm:p-5">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3.5">
                     <div class="flex items-center gap-2">
@@ -178,7 +183,7 @@
                         <h2 class="text-base sm:text-lg font-extrabold text-slate-900">ספריית הקלאסיקות הזוגיות (בחרי סיטואציה מוכנה)</h2>
                     </div>
                     <span class="text-xs text-rose-600 font-bold bg-rose-100/80 px-2.5 py-1 rounded-full self-start sm:self-auto">
-                        ⚡ מתחלף מיד בלחיצה!
+                        ⚡ טוען מיד מים מוכן + תמונת AI!
                     </span>
                 </div>
 
@@ -202,7 +207,9 @@
                 </div>
 
                 <!-- Dynamic Preset Cards Grid -->
-                <div id="presetCardsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-60 overflow-y-auto pr-1"></div>
+                <div id="presetCardsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-60 overflow-y-auto pr-1">
+                    <!-- Populated via JS -->
+                </div>
             </div>
 
             <!-- Custom Complaint Textarea -->
@@ -235,7 +242,7 @@
 
             <hr class="border-slate-100">
 
-            <!-- STEP 2: Joke Structure -->
+            <!-- STEP 2: Joke Structure (Meme Format) for Tightly Connected Lines -->
             <div>
                 <div class="flex items-center justify-between mb-2.5">
                     <label class="flex items-center gap-2 text-base sm:text-lg font-bold text-slate-900">
@@ -345,15 +352,16 @@
                     class="w-full py-4 px-6 rounded-2xl bg-gradient-to-l from-rose-600 via-pink-600 to-amber-500 hover:from-rose-700 hover:via-pink-700 hover:to-amber-600 text-white font-extrabold text-lg shadow-lg shadow-rose-300/60 hover:shadow-xl transition-all flex items-center justify-center gap-3 active:scale-[0.99]"
                 >
                     <i data-lucide="sparkles" class="w-6 h-6"></i>
-                    <span>צרי מים + תמונה חדשה עם פאנץ' מחובר!</span>
+                    <span>צרי מים + תמונת AI חדשה עם פאנץ' מחובר!</span>
                 </button>
                 <p id="errorBanner" class="hidden mt-3 text-sm text-rose-700 bg-rose-50 border border-rose-200 rounded-xl p-3 text-center font-medium"></p>
             </div>
         </section>
 
-        <!-- LEFT COLUMN: Meme Preview, Controls & Sharing -->
+        <!-- LEFT COLUMN (RTL): Meme Preview, Punchline Switcher, AI Image Regenerator & Sharing (5 cols on lg) -->
         <section class="lg:col-span-5 space-y-5">
             
+            <!-- Meme Card Container -->
             <div class="bg-white rounded-3xl shadow-xl shadow-rose-100/50 border border-rose-100 p-5 sm:p-6">
                 
                 <!-- Top Bar above Canvas -->
@@ -376,6 +384,7 @@
 
                 <!-- Canvas Wrapper -->
                 <div class="relative w-full aspect-square rounded-2xl overflow-hidden bg-slate-900 shadow-inner border border-slate-200 flex items-center justify-center group">
+                    <!-- HTML5 Canvas where AI image + RTL Hebrew text are rendered sharply -->
                     <canvas id="memeCanvas" width="900" height="900" class="w-full h-full object-contain block"></canvas>
 
                     <!-- Loading Overlay -->
@@ -384,31 +393,31 @@
                             <span class="text-3xl" id="loadingEmoji">🤸‍♀️</span>
                         </div>
                         <h3 id="loadingTitle" class="text-lg font-bold mb-1">הולכת על חבל דק...</h3>
-                        <p id="loadingSubtitle" class="text-xs sm:text-sm text-rose-200 max-w-xs">בונה שורת פתיחה ופאנץ' מחוברים ומחליפה תמונה</p>
+                        <p id="loadingSubtitle" class="text-xs sm:text-sm text-rose-200 max-w-xs">בונה שורת פתיחה ופאנץ' מחוברים ומייצרת תמונת AI חדשה</p>
                         <div class="w-48 h-2 bg-slate-700 rounded-full overflow-hidden mt-4">
-                            <div id="loadingBar" class="h-full bg-gradient-to-r from-rose-500 to-amber-400 w-1/3 transition-all duration-300 rounded-full"></div>
+                            <div id="loadingBar" class="h-full bg-gradient-to-r from-rose-500 to-amber-400 w-1/3 transition-all duration-500 rounded-full"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Quick Image & Punchline Controls Bar -->
+                <!-- Quick AI Image & Punchline Controls Bar -->
                 <div class="mt-3 grid grid-cols-2 gap-2.5">
                     <button
                         id="newAiImageBtn"
                         type="button"
-                        class="py-2.5 px-3 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-900 font-bold text-xs sm:text-sm border border-indigo-200 flex items-center justify-center gap-1.5 transition shadow-sm active:scale-95"
+                        class="py-2.5 px-3 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-900 font-bold text-xs sm:text-sm border border-indigo-200 flex items-center justify-center gap-1.5 transition shadow-sm"
                     >
                         <i data-lucide="image-plus" class="w-4 h-4 text-indigo-600"></i>
-                        <span>🎨 החלף תמונה מיד</span>
+                        <span>🎨 צור תמונת AI חדשה</span>
                     </button>
 
                     <button
                         id="regenerateAngleBtn"
                         type="button"
-                        class="py-2.5 px-3 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 font-bold text-xs sm:text-sm border border-amber-200 flex items-center justify-center gap-1.5 transition shadow-sm active:scale-95"
+                        class="py-2.5 px-3 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 font-bold text-xs sm:text-sm border border-amber-200 flex items-center justify-center gap-1.5 transition shadow-sm"
                     >
                         <i data-lucide="wand-2" class="w-4 h-4 text-amber-600"></i>
-                        <span>✨ 3 פאנצ'ים חדשים</span>
+                        <span>✨ 3 פאנצ'ים חדשים ב-AI</span>
                     </button>
                 </div>
 
@@ -463,6 +472,7 @@
             <!-- WhatsApp Accompanying Caption & Bro-Code Decoder Card -->
             <div class="bg-white rounded-3xl shadow-xl shadow-rose-100/50 border border-rose-100 p-5 sm:p-6 space-y-4">
                 
+                <!-- WhatsApp 1-Liner -->
                 <div class="bg-emerald-50/70 border border-emerald-200 rounded-2xl p-4">
                     <div class="flex items-center justify-between mb-1.5">
                         <span class="text-xs font-extrabold text-emerald-800 flex items-center gap-1.5">
@@ -483,6 +493,7 @@
                     </p>
                 </div>
 
+                <!-- Action Decode & Bro-Brain Explanation -->
                 <div class="space-y-2.5">
                     <div class="flex items-start gap-3 bg-amber-50/80 border border-amber-200/80 rounded-2xl p-3.5">
                         <div class="w-8 h-8 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 font-bold text-sm">🎯</div>
@@ -517,44 +528,10 @@
     </div>
 
     <script>
+        // Initialize Lucide icons
         lucide.createIcons();
 
-        // מאגר תמונות קומיות נקיות ומהירות ב-CDN (ללא הגבלת קצב, נטענות ב-0.2 שניות ותומכות ב-CORS להורדת PNG)
-        const INSTANT_MEME_PHOTOS = {
-            football: [
-                "[https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=900&q=80)",
-                "[https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=900&q=80)",
-                "[https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=900&q=80)",
-                "[https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?auto=format&fit=crop&w=900&q=80)",
-                "[https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=900&q=80)",
-                "[https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=900&q=80)"
-            ],
-            gaming: [
-                "[https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=900&q=80)",
-                "[https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=900&q=80)",
-                "[https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80)",
-                "[https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?auto=format&fit=crop&w=900&q=80)",
-                "[https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=900&q=80)",
-                "[https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=900&q=80)"
-            ],
-            food: [
-                "[https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=900&q=80)",
-                "[https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=900&q=80)",
-                "[https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=900&q=80)",
-                "[https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=900&q=80)",
-                "[https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=900&q=80)",
-                "[https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=900&q=80)"
-            ],
-            classic: [
-                "[https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=900&q=80)",
-                "[https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=900&q=80)",
-                "[https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=900&q=80)",
-                "[https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=80)",
-                "[https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=900&q=80)",
-                "[https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=900&q=80](https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=900&q=80)"
-            ]
-        };
-
+        // Rich Categorized Presets Hub ("ספריית הקלאסיקות הזוגיות")
         const PRESET_LIBRARY = {
             home: [
                 {
@@ -566,7 +543,7 @@
                     format: "var_alert",
                     actionItem: "לקום בחיוך, להעביר את הצלחת 10 ס״מ ימינה לתוך המדיח ולהרגיש כמו אלוף אירופה.",
                     broExplanation: "גברים לא רואים בכיור 'עבודה לא גמורה', אלא 'אזור חניה זמני'. כשממסגרים את ה-10 ס״מ האחרונים כפספוס מול שער ריק בבדיקת VAR, הוא קם מיד לתקן את הסטטיסטיקה.",
-                    imagePrompt: "Soccer referee in uniform standing inside a modern home kitchen pointing dramatically at a plate in a sink, bright cinematic comedy photography",
+                    imagePrompt: "Funny expressive close up of a soccer referee in uniform standing inside a modern home kitchen, dramatically pointing at a dirty plate sitting in a kitchen sink right next to an open dishwasher, comedic sports broadcast lighting",
                     options: [
                         {
                             topText: "בדיקת VAR במטבח: הצלחת עברה 99% מהדרך מהשולחן לכיור",
@@ -594,7 +571,7 @@
                     format: "pov_when",
                     actionItem: "להזיז קופסה אחת במקרר ולהסתכל יותר מ-1.5 שניות לפני שמכריזים על מצב חירום.",
                     broExplanation: "תופעת 'עיוורון המקרר הגברי' מוכרת מדעית. כשמתייחסים לזה כאל משימת חיפוש במשחק מחשב שדורשת להזיז חפץ אחד כדי לגלות שלל, זה מצחיק אותו במקום להביך.",
-                    imagePrompt: "Man wearing a gaming headset looking with a magnifying glass into a bright open refrigerator, vibrant comedy photography",
+                    imagePrompt: "Hilarious man wearing a gaming headset staring intensely with a magnifying glass into a bright open refrigerator, while a giant glowing jar of food sits right in front of his nose, vibrant comedy illustration style",
                     options: [
                         {
                             topText: "כשאתה סורק את המקרר ל-1.2 שניות ומכריז: 'מאמי בדקתי, נגמר!'",
@@ -622,7 +599,7 @@
                     format: "setup_punch",
                     actionItem: "לקחת את שקית הזבל שעומדת ליד הדלת בדרך החוצה ולהשלים את המשימה עד הפח למטה.",
                     broExplanation: "מבחינתו קשירת השקית והצבתה ליד הדלת זה 80% מהפרויקט. המים מזכיר לו בקריצה שהשקית עדיין לא פיתחה יכולת הליכה עצמאית למעלית.",
-                    imagePrompt: "Funny tied garbage bag standing by an apartment front door wearing tiny sneakers waiting to go outside, domestic comedy photo",
+                    imagePrompt: "Funny cinematic photo of a tied black garbage bag standing proudly by a front apartment door wearing tiny sneakers and waiting impatiently to go outside, hilarious domestic comedy",
                     options: [
                         {
                             topText: "שקית הזבל שהשארת ליד הדלת כבר הזמינה מונית...",
@@ -650,7 +627,7 @@
                     format: "expectation_reality",
                     actionItem: "להרים את הגרביים מהרצפה ולהשחיל אותם לתוך סל הכביסה כמו סל ניצחון.",
                     broExplanation: "זריקת בגדים לסל היא ספורט אתגרי בעיני גברים. אם מציגים את הבגדים שעל הרצפה כהחטאה מחוץ למסגרת שדורשת זריקת עונשין חוזרת, הוא קולע אותם פנימה בשנייה.",
-                    imagePrompt: "Pair of rolled up socks on the floor right next to a laundry hamper with a mini basketball hoop, bright comedy photo",
+                    imagePrompt: "Funny dramatic photo of a pair of rolled up socks lying on the floor just two inches outside a laundry basket, with a miniature basketball hoop attached to the laundry hamper, bright comedic style",
                     options: [
                         {
                             topText: "איך שאתה מרגיש כשזרקת את הגרביים לכיוון סל הכביסה: סטף קרי מהשלוש 🏀",
@@ -680,7 +657,7 @@
                     format: "expectation_reality",
                     actionItem: "לשלוח עכשיו הודעת המשך מפרגנת עם התייחסות אמיתית ומחמאה למה שכתבת.",
                     broExplanation: "גברים חושבים ש-'טוב 👍' זו תגובה יעילה שמאשרת קבלה. המים מסביר לו בשנייה שהאגודל הזה שקול לניתוק בפנים ומזמין אותו לשדרג תגובה בלי דרמה.",
-                    imagePrompt: "Man in a tuxedo proudly looking at his smartphone with a smug funny expression, cinematic comedy portrait",
+                    imagePrompt: "Funny dramatic meme scene of a man proudly typing on his smartphone while wearing a tuxedo, comedic exaggerated facial expression",
                     options: [
                         {
                             topText: "איך שאתה מרגיש אחרי שענית 'טוב 👍' להודעה של 14 שורות: משורר הדור 📜",
@@ -708,7 +685,7 @@
                     format: "setup_punch",
                     actionItem: "לקרוא את כל ההודעה ולענות על שתי השאלות הנוספות שנותרו יתומות.",
                     broExplanation: "המוח הגברי בוואטסאפ קורא רק את השורה האחרונה בהודעה. כשמציגים את זה כמשימה שהושלמה רק ב-33%, הוא קולט מיד שפספס שתי שאלות וחוזר להשלים.",
-                    imagePrompt: "Confused funny guy looking at his smartphone scratching his head, colorful comedy lighting",
+                    imagePrompt: "Funny confused guy looking at his glowing smartphone scratching his head like a video game character, colorful comedic digital illustration",
                     options: [
                         {
                             topText: "שאלתי אותך 3 שאלות שונות בהודעה וענית לי רק: 'סבבה'",
@@ -736,7 +713,7 @@
                     format: "var_alert",
                     actionItem: "לשלוח מיקום/זמן הגעה אמיתי עכשיו ולהביא משהו טעים כפיצוי על תוספת הזמן.",
                     broExplanation: "5 דקות של גבר שמתארגן או מסיים שיחה זה תוספת זמן של מונדיאל. הומור על 'שעון דקה 90' גורם לו לעדכן מיד איפה הוא עומד.",
-                    imagePrompt: "Funny man looking at a wristwatch with a shocked expression while running late, bright comedy photography",
+                    imagePrompt: "Funny sports announcer looking at a giant stopwatch while a guy casually ties his shoes in slow motion, bright comedic photography",
                     options: [
                         {
                             topText: "ה-'5 דקות אני יוצא' שלך כבר הגיע לדקה ה-90 פלוס הארכה ופנדלים",
@@ -766,7 +743,7 @@
                     format: "setup_punch",
                     actionItem: "לפתוח וולט עכשיו, להזמין את המקום שאתם אוהבים ולהודיע לך: 'הזמנתי לנו, השליח בדרך'.",
                     broExplanation: "גברים מתים על משימות הצלה פשוטות עם פתרון מיידי. כשאת אומרת לו בדיוק שהמשפט הכי רומנטי בעולם הוא 'הזמנתי לנו אוכל', הוא מרגיש גיבור-על בפעולה.",
-                    imagePrompt: "Heroic funny man holding a pizza box and burger bag like a royal trophy, warm golden lighting",
+                    imagePrompt: "Heroic funny man wearing a superhero cape holding a glowing takeout pizza box and burger bag like a royal crown, dramatic golden lighting, hilarious facial expression",
                     options: [
                         {
                             topText: "טיפ זהב לשלום בית: המשפט הכי סקסי בעברית הוא לא 'אני אוהב אותך'...",
@@ -794,7 +771,7 @@
                     format: "pov_when",
                     actionItem: "להזמין מנה נוספת או קינוח מפנק עכשיו כדי לפצות על מס הצ'יפס שנלקח.",
                     broExplanation: "כולם מכירים את הבדיחה על חברה שלוקחת צ'יפס, אבל כשגבר 'לא רעב' טורף חצי המבורגר ב-2 ביסים, מים הפוך על הסיטואציה גורם לו לצחוק ולהזמין לך פיצוי מיידי.",
-                    imagePrompt: "Funny man with a guilty expression holding french fries and a burger, vibrant comedy photography",
+                    imagePrompt: "Funny man with a guilty caught-in-the-act expression holding a giant handful of french fries next to an empty plate, dramatic spotlight, vibrant comedy photography",
                     options: [
                         {
                             topText: "כשאתה מצהיר 'אני לא רעב, תזמיני רק לך'...",
@@ -824,7 +801,7 @@
                     format: "expectation_reality",
                     actionItem: "להבטיח שמחר בערב אני בוחרת את הסרט לבד בלי משא ומתן + אתה אחראי על הפופקורן והמסאז' ברגליים.",
                     broExplanation: "גבר שנרדם מול סרט תמיד יטען שהוא 'רק עצם עיניים'. המים צוחק על הקלאסיקה הזו ונותן לך זכות וטו אוטומטית על הבחירה הבאה בנטפליקס.",
-                    imagePrompt: "Funny man sleeping on a living room couch holding a TV remote and popcorn bowl, cozy comedy photo",
+                    imagePrompt: "Hilarious scene of a man sound asleep and snoring on a living room couch holding a TV remote and popcorn bowl in front of a glowing TV screen, cozy comedic style",
                     options: [
                         {
                             topText: "45 דקות מתווכחים איזה סרט לראות כי 'בא לך אקשן איכותי'",
@@ -852,7 +829,7 @@
                     format: "var_alert",
                     actionItem: "לסגור את הקונסולה בסיום המשחק הנוכחי ולבוא לספה עם חיבוק ונשנוש.",
                     broExplanation: "מדבר אליו ישירות בשפת הגיימינג: המשימה הראשית (Main Quest) בסלון מהבהבת באדום ומחכה לו עם בונוס שווה.",
-                    imagePrompt: "Gamer guy with headphones holding a controller with an excited expression in a glowing room, vibrant photo",
+                    imagePrompt: "Funny gamer guy with headphones looking nervously at his glowing game controller in the living room, vibrant comic art",
                     options: [
                         {
                             topText: "התראת גיימינג: ה-'עוד משחק אחרון ודי' שלך נכנס לשעה השנייה",
@@ -867,7 +844,7 @@
                         {
                             topText: "בדיקת VAR על הפלייסטיישן: הובטח סיום משחק לפני 35 דקות",
                             bottomText: "כבה שלט, הבא שוקולד מהמטבח וקבל בונוס שלום בית מיידי 🍫🎮",
-                            whatsappCaption: "הודעה זו נשלחה מטעם הנהלת הסלון 😘🎮"
+                            whatsappCaption: "הודיעה זו נשלחה מטעם הנהלת הסלון 😘🎮"
                         }
                     ]
                 }
@@ -882,7 +859,7 @@
                     format: "setup_punch",
                     actionItem: "לעזוב את הטלפון, לבוא לתת חיבוק של 30 שניות מלאות ולהגיד לה כמה היא מהממת.",
                     broExplanation: "לפעמים גברים פשוט שקועים במסך ולא קולטים את האיתותים. המים הופך את הבקשה לחיבוק ל'טעינת סוללה' חמודה ומצחיקה שהוא ישמח לבצע מיד.",
-                    imagePrompt: "Cute funny puppy dog looking at the camera begging for a hug and attention, warm portrait",
+                    imagePrompt: "Cute funny scene of a glowing red low-battery icon hovering above a woman waiting for a warm hug recharge from her smiling partner, Pixar style comedy illustration",
                     options: [
                         {
                             topText: "התראת סוללה חלשה: מד הצומי והחיבוקים של אשתך ירד ל-4% 🪫",
@@ -910,7 +887,7 @@
                     format: "setup_punch",
                     actionItem: "להזמין שולחן למקום שווה ולהגיד לך: 'תתלבשי יפה ב-20:30, כל השאר עליי'.",
                     broExplanation: "נותן לו את התסריט המדויק להצלחה מובטחת בלי שהוא יצטרך לנחש מה את רוצה. ברגע שיש לו הוראות הפעלה ברורות בפורמט הומוריסטי, הוא עף על זה.",
-                    imagePrompt: "Suave funny man dressed in a suit holding two glasses of wine with a wink, romantic comedy style",
+                    imagePrompt: "Funny suave man dressed like James Bond holding two glasses of wine with a wink, cinematic romantic comedy style",
                     options: [
                         {
                             topText: "רוצה לדעת איך גורמים לי להתאהב בך מחדש תוך 4 שניות?",
@@ -949,10 +926,10 @@
             broExplanation: PRESET_LIBRARY.home[0].broExplanation,
             imagePrompt: PRESET_LIBRARY.home[0].imagePrompt,
             fontSize: 44,
-            textStyleIndex: 0,
+            textStyleIndex: 0, // 0: Classic Stroke, 1: Modern Card Box, 2: Split Top/Bottom Bar
             currentImageObj: null,
-            photoRotationIndex: 0,
-            lastPollinationsCallTime: 0
+            imageSeed: Math.floor(Math.random() * 999999),
+            modelRotationCounter: 0
         };
 
         const textStyles = [
@@ -1019,6 +996,7 @@
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toastMessage');
 
+        // Show Toast Notification
         function showToast(msg) {
             toastMessage.textContent = msg;
             toast.classList.remove('opacity-0', 'translate-y-4');
@@ -1029,6 +1007,27 @@
             }, 2600);
         }
 
+        // Exponential Backoff Fetch
+        async function fetchWithRetry(url, options, maxRetries = 2) {
+            let delay = 800;
+            for (let attempt = 0; attempt <= maxRetries; attempt++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (response.ok) {
+                        return await response.json();
+                    }
+                    if (attempt === maxRetries) {
+                        throw new Error(`HTTP Error ${response.status}`);
+                    }
+                } catch (err) {
+                    if (attempt === maxRetries) throw err;
+                }
+                await new Promise(r => setTimeout(r, delay));
+                delay *= 1.8;
+            }
+        }
+
+        // Render Categorized Preset Cards
         function renderPresetCards() {
             const list = PRESET_LIBRARY[state.activeTab] || [];
             presetCardsGrid.innerHTML = '';
@@ -1050,6 +1049,7 @@
             });
         }
 
+        // When user clicks a preset card: load complaint, category, format, 3 punchlines AND generate matching AI image
         async function selectPresetItem(item) {
             state.selectedPresetId = item.id;
             state.complaint = item.complaint;
@@ -1061,6 +1061,7 @@
             state.broExplanation = item.broExplanation;
             state.imagePrompt = item.imagePrompt;
 
+            // Update UI selections
             complaintInput.value = item.complaint;
             clearInputBtn.classList.remove('hidden');
             errorBanner.classList.add('hidden');
@@ -1075,9 +1076,11 @@
             renderPresetCards();
             applyCurrentOptionToUI();
 
+            // Immediately generate a tailored AI image for this preset
             await triggerAiImageUpdate(state.imagePrompt, true);
         }
 
+        // Apply current option from the 3 punchline options to inputs and canvas
         function applyCurrentOptionToUI() {
             const opt = state.options[state.currentOptionIndex] || state.options[0];
             state.topText = opt.topText;
@@ -1094,52 +1097,61 @@
             renderMemeCanvas();
         }
 
-        // איור דינמי שמשתנה בכל לחיצה (אם המשתמש אופליין לגמרי)
-        function createDynamicIllustratedCard(category) {
+        // Rich illustrated canvas fallback (only used while waiting or if completely offline)
+        function createIllustratedFallback(category) {
             const offscreen = document.createElement('canvas');
             offscreen.width = 900;
             offscreen.height = 900;
             const octx = offscreen.getContext('2d');
 
-            const palettes = [
-                ['#064e3b', '#047857', '#10b981'],
-                ['#1e1b4b', '#4338ca', '#7c3aed'],
-                ['#7c2d12', '#d97706', '#f59e0b'],
-                ['#4c0519', '#be123c', '#f43f5e'],
-                ['#0f172a', '#0284c7', '#38bdf8']
-            ];
-            const pal = palettes[state.photoRotationIndex % palettes.length];
-            const grad = octx.createRadialGradient(450, 450, 60, 450, 450, 620);
+            const palettes = {
+                football: ['#064e3b', '#047857', '#10b981'],
+                gaming: ['#1e1b4b', '#4338ca', '#7c3aed'],
+                food: ['#7c2d12', '#d97706', '#f59e0b'],
+                classic: ['#4c0519', '#be123c', '#f43f5e']
+            };
+            const pal = palettes[category] || palettes.football;
+            const grad = octx.createRadialGradient(450, 450, 80, 450, 450, 620);
             grad.addColorStop(0, pal[2]);
             grad.addColorStop(0.55, pal[1]);
             grad.addColorStop(1, pal[0]);
             octx.fillStyle = grad;
             octx.fillRect(0, 0, 900, 900);
 
+            octx.save();
+            octx.translate(450, 450);
+            octx.fillStyle = 'rgba(255,255,255,0.06)';
+            for (let i = 0; i < 16; i++) {
+                octx.beginPath();
+                octx.moveTo(0, 0);
+                octx.arc(0, 0, 700, (i * Math.PI) / 8, (i * Math.PI) / 8 + 0.18);
+                octx.closePath();
+                octx.fill();
+            }
+            octx.restore();
+
             octx.beginPath();
-            octx.arc(450, 450, 210, 0, Math.PI * 2);
-            octx.fillStyle = 'rgba(255, 255, 255, 0.16)';
+            octx.arc(450, 450, 200, 0, Math.PI * 2);
+            octx.fillStyle = 'rgba(255, 255, 255, 0.15)';
             octx.fill();
 
-            const emojiSets = {
-                football: ['🤸‍♀️⚽🏆', '📺⚽🚨', '🟨🏃‍♂️🥅', '🏆🥇⚽'],
-                gaming: ['🎮⚡🏆', '🕹️👾🔋', '🎧🎮🔥', '👑🎯⚡'],
-                food: ['🍕🛵🍫', '🍔🍟👑', '🍦🍫😋', '🛵🍕✨'],
-                classic: ['😏☕🎯', '🛋️🍿😴', '📱👍😂', '🍷✨💑']
+            const emojis = {
+                football: '🤸‍♀️⚽📺',
+                gaming: '🎮⚡🏆',
+                food: '🍕🛵🍫',
+                classic: '😏☕🎯'
             };
-            const set = emojiSets[category] || emojiSets.classic;
-            const chosenEmojis = set[state.photoRotationIndex % set.length];
-
-            octx.font = '120px sans-serif';
+            octx.font = '125px sans-serif';
             octx.textAlign = 'center';
             octx.textBaseline = 'middle';
-            octx.fillText(chosenEmojis, 450, 450);
+            octx.fillText(emojis[category] || '🤸‍♀️⚽📺', 450, 450);
 
             const img = new Image();
             img.src = offscreen.toDataURL();
             return img;
         }
 
+        // Wrap RTL Hebrew text into lines that fit maxWidth
         function wrapHebrewText(context, text, maxWidth) {
             if (!text || !text.trim()) return [];
             const words = text.trim().split(/\s+/);
@@ -1160,6 +1172,7 @@
             return lines;
         }
 
+        // Render the Meme on the HTML5 Canvas (AI Image + Crisp RTL Hebrew Text)
         function renderMemeCanvas() {
             const width = memeCanvas.width;
             const height = memeCanvas.height;
@@ -1170,27 +1183,27 @@
             const lineHeight = fontSize * 1.24;
             const maxWidth = width - 84;
 
+            // 1. Draw Background AI Image
             if (state.currentImageObj && state.currentImageObj.complete && state.currentImageObj.naturalWidth > 0) {
                 const img = state.currentImageObj;
                 const imgRatio = img.width / img.height;
                 const canvasRatio = width / height;
-                // זום קל של 6% שחותך החוצה כל שוליים או באנר חיצוני בקצוות התמונה
-                const zoom = 1.06;
-                let drawW = width * zoom, drawH = height * zoom;
+                let drawW = width, drawH = height, offsetX = 0, offsetY = 0;
 
                 if (imgRatio > canvasRatio) {
-                    drawW = height * imgRatio * zoom;
+                    drawW = height * imgRatio;
+                    offsetX = -(drawW - width) / 2;
                 } else {
-                    drawH = (width / imgRatio) * zoom;
+                    drawH = width / imgRatio;
+                    offsetY = -(drawH - height) / 2;
                 }
-                const offsetX = -(drawW - width) / 2;
-                const offsetY = -(drawH - height) / 2;
                 ctx.drawImage(img, offsetX, offsetY, drawW, drawH);
             } else {
                 ctx.fillStyle = '#1e293b';
                 ctx.fillRect(0, 0, width, height);
             }
 
+            // 2. Vignette / Bars based on selected layout mode
             ctx.save();
             ctx.direction = 'rtl';
             ctx.textAlign = 'center';
@@ -1201,30 +1214,34 @@
             const bottomLines = wrapHebrewText(ctx, state.bottomText, maxWidth);
 
             if (currentStyle.mode === 'bars') {
+                // Top & bottom solid dark meme bars
                 const topBarH = Math.max(130, topLines.length * lineHeight + 52);
                 const botBarH = Math.max(135, bottomLines.length * lineHeight + 58);
                 ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
                 ctx.fillRect(0, 0, width, topBarH);
                 ctx.fillRect(0, height - botBarH, width, botBarH);
 
+                // Accent line
                 ctx.fillStyle = '#f43f5e';
                 ctx.fillRect(0, topBarH - 4, width, 4);
                 ctx.fillStyle = '#f59e0b';
                 ctx.fillRect(0, height - botBarH, width, 4);
             } else {
+                // Classic or Box mode: smooth dark vignette gradients for readability
                 const topGrad = ctx.createLinearGradient(0, 0, 0, 290);
-                topGrad.addColorStop(0, 'rgba(0,0,0,0.82)');
+                topGrad.addColorStop(0, 'rgba(0,0,0,0.78)');
                 topGrad.addColorStop(1, 'rgba(0,0,0,0)');
                 ctx.fillStyle = topGrad;
                 ctx.fillRect(0, 0, width, 290);
 
                 const botGrad = ctx.createLinearGradient(0, height - 310, 0, height);
                 botGrad.addColorStop(0, 'rgba(0,0,0,0)');
-                botGrad.addColorStop(1, 'rgba(0,0,0,0.86)');
+                botGrad.addColorStop(1, 'rgba(0,0,0,0.84)');
                 ctx.fillStyle = botGrad;
                 ctx.fillRect(0, height - 310, width, 310);
             }
 
+            // Helper to draw a block of lines
             function drawTextBlock(lines, startY, isBottom = false) {
                 lines.forEach((line, idx) => {
                     const y = startY + idx * lineHeight;
@@ -1243,6 +1260,7 @@
                         ctx.restore();
                     }
 
+                    // Thick outer stroke for crisp Hebrew legibility
                     ctx.lineJoin = 'round';
                     ctx.miterLimit = 2;
                     ctx.lineWidth = currentStyle.mode === 'box' ? 5 : Math.max(8, Math.round(fontSize * 0.22));
@@ -1252,6 +1270,7 @@
                     ctx.shadowOffsetY = 3;
                     ctx.strokeText(line, width / 2, y);
 
+                    // Fill text (Bottom punchline highlighted in warm gold in classic/bars mode for clear connection)
                     ctx.shadowBlur = 0;
                     ctx.shadowOffsetY = 0;
                     ctx.fillStyle = (isBottom && currentStyle.mode !== 'box') ? '#FDE047' : '#FFFFFF';
@@ -1259,17 +1278,20 @@
                 });
             }
 
+            // Draw Top Text
             if (topLines.length > 0) {
                 const startTopY = 50 + fontSize / 2;
                 drawTextBlock(topLines, startTopY, false);
             }
 
+            // Draw Bottom Text
             if (bottomLines.length > 0) {
                 const totalBottomHeight = (bottomLines.length - 1) * lineHeight;
                 const startBottomY = height - 60 - totalBottomHeight;
                 drawTextBlock(bottomLines, startBottomY, true);
             }
 
+            // Subtle watermark badge in bottom-left corner
             ctx.font = '700 17px "Rubik", sans-serif';
             ctx.fillStyle = 'rgba(255,255,255,0.65)';
             ctx.textAlign = 'left';
@@ -1278,95 +1300,31 @@
             ctx.restore();
         }
 
-        // גיבוי חכם שבונה 3 פאנצ'ים מותאמים אישית לתלונה של המשתמשת אם שרת ה-API אינו זמין
-        function buildSmartLocalConcept(complaint, category) {
-            const clean = complaint.replace(/["']/g, '').trim();
-            const shortComplaint = clean.length > 58 ? clean.slice(0, 55) + "..." : clean;
-
-            const templates = {
-                football: [
-                    {
-                        topText: `בדיקת VAR רשמית על האירוע: "${shortComplaint}"`,
-                        bottomText: `השופטת שולפת כרטיס צהוב! יש לך 60 שניות לתקן ולצאת מלך האלופות 🏆⚽`,
-                        whatsappCaption: `שופטי ה-VAR קוראים לך לבדיקה מהירה 😂⚽`
-                    },
-                    {
-                        topText: `כשאתה בטוח שיצאת שחקן מצטיין בזה ש${shortComplaint}...`,
-                        bottomText: `...אבל בדקה ה-90 מתברר שפספסת מול שער ריק! הזדמנות לבעיטה חוזרת עכשיו 🥅`,
-                        whatsappCaption: `נותנת לך הזדמנות לשער ניצחון בהארכה 😘🏆`
-                    },
-                    {
-                        topText: `שדרן המשחק מדווח מהשטח: "${shortComplaint}"`,
-                        bottomText: `הקהל הביתי דורש מהפך מיידי ופיצוי מתוק כדי לשמור על המקום הראשון בטבלה 🍫🥇`,
-                        whatsappCaption: `הקהל בבית ממתין למהפך של אלופים 😂❤️`
-                    }
-                ],
-                gaming: [
-                    {
-                        topText: `התראת משימה פתוחה: "${shortComplaint}"`,
-                        bottomText: `מד ה-HP של שלום הבית יורד! השלם את המשימה עכשיו וקבל בונוס XP כפול 🎮⚡`,
-                        whatsappCaption: `נפתחה לך משימת בונוס מהירה בסלון 😂🎮`
-                    },
-                    {
-                        topText: `כשאתה מתנהג כאילו סיימת את השלב בזמן ש${shortComplaint}...`,
-                        bottomText: `...ושוכח שהבוס האמיתי של המשחק רואה הכל! תקן עכשיו לשדרוג דמות 🏆🕹️`,
-                        whatsappCaption: `רמז לשלב הבוס: כדאי לטפל בזה לפני שנגמר הזמן 😘👾`
-                    },
-                    {
-                        topText: `באג במערכת הזוגית זוהה: "${shortComplaint}"`,
-                        bottomText: `פתרון מהיר: בצע ריסטארט, טפל במשימה ותביא חיבוק טעינה של 30 שניות 🔋❤️`,
-                        whatsappCaption: `עדכון מערכת דחוף מחכה לך אצלי 😂⚡`
-                    }
-                ],
-                food: [
-                    {
-                        topText: `מד הסוכר והסבלנות בצניחה חופשית בגלל ש${shortComplaint}`,
-                        bottomText: `הפתרון היחיד שמאושר רפואית: לקחת פיקוד מיד ולהפתיע עם משהו טעים 🍕🛵`,
-                        whatsappCaption: `רמז קולינרי עבה מאוד לשלום בית 😂🍔`
-                    },
-                    {
-                        topText: `כשאתה חושב שאפשר להעביר הלאה את זה ש${shortComplaint}...`,
-                        bottomText: `...בלי להפעיל נוהל משלוח חירום וקינוח מפנק ליישור ההדורים 🍫👑`,
-                        whatsappCaption: `המערכת ממתינה לפיצוי טעים במיוחד 😘🍟`
-                    },
-                    {
-                        topText: `הודעה מטעם ועדת הקולינריה והזוגיות: "${shortComplaint}"`,
-                        bottomText: `קח יוזמה עכשיו, תפתור את הסיטואציה ותצא הגיבור הרשמי של הערב 🦸‍♂️🍕`,
-                        whatsappCaption: `זה הרגע שלך לזרוח ולקחת פיקוד 😂✨`
-                    }
-                ],
-                classic: [
-                    {
-                        topText: `איך שאתה מרגיש עכשיו למרות ש${shortComplaint}: מלך העולם 😎`,
-                        bottomText: `המציאות: רמז דק כמו פיל – טפל בזה עכשיו עם חיוך ותצא אלוף אמיתי 🎯❤️`,
-                        whatsappCaption: `סתם מניחה פה רמז עדין באהבה 😂😘`
-                    },
-                    {
-                        topText: `כשאתה בטוח שלא שמתי לב לזה ש${shortComplaint}...`,
-                        bottomText: `...ומצפה שזה יסתדר מעצמו בלי שתזיז אצבע! הכדור במגרש שלך קפטן 😏✨`,
-                        whatsappCaption: `נותנת לך צ'אנס לצאת מלך בלי שאצטרך לחפור 😂🙌`
-                    },
-                    {
-                        topText: `מבזק חדשות מיוחד מהבית: "${shortComplaint}"`,
-                        bottomText: `יש לך 5 דקות להפתיע בפתרון אלגנטי + חיבוק לפני שעוברים לנוהל חפירה 🚨🫂`,
-                        whatsappCaption: `חסכתי לנו שיחה של שעה במים אחד מדויק 😘😂`
-                    }
-                ]
-            };
-
-            return {
-                options: templates[category] || templates.classic,
-                actionItemForHim: "לקרוא את המים, לחייך, להבין מיד את הרמז ולטפל בזה עכשיו בלי להיכנס למגננה.",
-                broCodeExplanation: "במקום הודעה חופרת בוואטסאפ שמכניסה אותו למגננה, השילוב של פתיחה קומית ופאנץ' ישיר מפיל לו את האסימון תוך 2 שניות.",
-                imagePrompt: `Funny expressive man in a domestic comedy scene about ${category}, vibrant lighting, clean photography`
-            };
-        }
-
+        // Step 1: Call Gemini Text Model to craft 3 tightly connected Hebrew Meme Options + Image Prompt
         async function generateMemeConcept(complaint, category, format, intensity) {
             const systemPrompt = `אתה קופירייטר קומי ישראלי מבריק ומומחה לזוגיות ("על חבל דק").
 המשימה שלך: לקחת תלונה שקטה של אישה על בן הזוג שלה ולהפוך אותה למים (Meme) קורע מצחוק, שנון ונטול מבוכה שהגבר יבין תוך 2 שניות.
-השורה העליונה (topText) והשורה התחתונה (bottomText) חייבות להיות שני חלקים מחוברים של אותה בדיחה בדיוק.
-בנוסף, צור imagePrompt קצר באנגלית שמתאר סצנה ויזואלית הומוריסטית נקייה שמתאימה לבדיחה.`;
+
+חוק ברזל קריטי - קשר הדוק וישיר בין השורה העליונה לשורה התחתונה:
+לעולם אל תכתוב שני משפטים מנותקים! השורה העליונה (topText) והשורה התחתונה (bottomText) חייבות להיות שני חלקים של אותה בדיחה בדיוק:
+- השורה העליונה בונה את ההגשה / הסיטואציה / תחילת המשפט.
+- השורה התחתונה משלימה ישירות את המשפט או מפילה את הפאנץ' הקומי עם הרמז המעשי.
+
+דוגמאות מצוינות לקשר הדוק בין השורות:
+דוגמה 1 (הצלחת ליד המדיח):
+topText: "בדיקת VAR במטבח: הצלחת עברה 99% מהדרך מהשולחן לכיור"
+bottomText: "פספסת ב-10 ס״מ מול מדיח ריק! עוד תנועה ימינה וזה שער ניצחון 🏆"
+
+דוגמה 2 (עונה 'טוב' בוואטסאפ):
+topText: "איך שאתה מרגיש אחרי שענית 'טוב 👍' להודעה של 14 שורות: משורר הדור"
+bottomText: "המציאות: יש לך 60 שניות להוסיף מחמאה ו-3 מילים שלמות לפני כרטיס אדום 🚨"
+
+דוגמה 3 (חיפוש במקרר):
+topText: "כשאתה סורק את המקרר ל-1.2 שניות ומכריז: 'מאמי בדקתי, נגמר!'"
+bottomText: "שלב הבוס: נסה להזיז את החלב סנטימטר הצידה ותגלה אוצר בשורה הראשונה 🕵️‍♂️"
+
+עליך לייצר 3 אופציות שונות ומעולות (options) שכל אחת מהן בנויה משורת פתיחה ופאנץ' מחוברים לגמרי!
+בנוסף, צור imagePrompt באנגלית שמתאר סצנה ויזואלית הומוריסטית ומוגזמת שמתאימה בדיוק לבדיחה.`;
 
             const userQuery = `התלונה / הסיטואציה: "${complaint}"
 מבנה הבדיחה המבוקש: ${formatLabels[format]}
@@ -1397,32 +1355,30 @@
                             broCodeExplanation: { type: "STRING" },
                             imagePrompt: { type: "STRING" }
                         },
-                        required: ["options", "actionItemForHim", "broCodeExplanation", "imagePrompt"]
+                        required: [
+                            "options",
+                            "actionItemForHim",
+                            "broCodeExplanation",
+                            "imagePrompt"
+                        ]
                     }
                 }
             };
 
-            try {
-                const response = await fetch(`/.netlify/functions/gemini`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                if (response.ok) {
-                    const result = await response.json();
-                    const rawJson = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-                    if (rawJson) {
-                        return JSON.parse(rawJson);
-                    }
-                }
-            } catch (e) {
-                // אם הפונקציה ב-Netlify עדיין לא מוגדרת, עובר אוטומטית למחולל החכם המקומי
-            }
+            const url = `/.netlify/functions/gemini`;
+            const result = await fetchWithRetry(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
 
-            return buildSmartLocalConcept(complaint, category);
+            const rawJson = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (!rawJson) throw new Error("לא התקבל פלט טקסט מהמודל");
+            return JSON.parse(rawJson);
         }
 
-        function loadImageElement(src, timeoutMs = 8500) {
+        // Helper: Load an image URL or DataURL into an HTMLImageElement with CORS support
+        function loadImageElement(src, timeoutMs = 30000) {
             return new Promise((resolve, reject) => {
                 const img = new Image();
                 if (!src.startsWith('data:')) {
@@ -1445,80 +1401,67 @@
             });
         }
 
-        // שליפת תמונה מהירה שמובטח שתתחלף בכל לחיצה (ללא טקסט זבל למעלה וללא תקיעת 45 שניות)
-        async function fetchNextMemeImage(englishImagePrompt, category, forceInstantRotation = false) {
-            state.photoRotationIndex++;
-            const seed = Math.floor(Math.random() * 900000) + 10000;
+        // Step 2: AI Image Generator (ללא מילות טריגר שגורמות לטקסט באנגלית על התמונה + רוטציית מודלים לעקיפת תור 45 שניות)
+        async function generateGuaranteedAiImage(englishImagePrompt, seed) {
+            const strippedPrompt = englishImagePrompt.replace(/,?\s*no text.*$/i, '').trim();
+            const cleanPrompt = `${strippedPrompt}, funny expressive cinematic comedy scene, vibrant lighting, exaggerated humorous facial expression, centered composition`;
 
-            // פרומפט נקי ללא המילים "text / letters / words" שגורמות למודלים לצייר אותיות מוזרות למעלה
-            const cleanVisualPrompt = `${englishImagePrompt}, funny expressive facial expression, vibrant cinematic comedy photography, high quality portrait`;
-
-            // 1. ניסיון ראשון: פונקציית Netlify מהירה (HuggingFace FLUX.1-schnell) אם הוגדרה
+            // ניסיון ראשון דרך פונקציית Netlify מהירה (אם מוגדרת)
             try {
                 const hfRes = await fetch('/.netlify/functions/image', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: cleanVisualPrompt, seed })
+                    body: JSON.stringify({ prompt: cleanPrompt, seed })
                 });
                 if (hfRes.ok) {
                     const data = await hfRes.json();
                     if (data.dataUrl) {
-                        return await loadImageElement(data.dataUrl, 7000);
+                        return await loadImageElement(data.dataUrl, 15000);
                     }
                 }
             } catch (e) {}
 
-            // 2. אם עברו יותר מ-45 שניות מהקריאה הקודמת ל-Pollinations (ולא ביקשנו החלפה מיידית ברצף) - נשלוף תמונת AI חדשה
-            const now = Date.now();
-            if (!forceInstantRotation && (now - state.lastPollinationsCallTime > 45000)) {
-                state.lastPollinationsCallTime = now;
+            // רוטציה בין שרתי המודלים של Pollinations ברזולוציה טבעית 768x768 כדי שלא ייחסם ב-45 שניות
+            const modelsPool = ['flux', 'flux-realism', 'turbo'];
+            const startIdx = state.modelRotationCounter++ % modelsPool.length;
+            const encodedPrompt = encodeURIComponent(cleanPrompt);
+
+            for (let i = 0; i < modelsPool.length; i++) {
+                const modelName = modelsPool[(startIdx + i) % modelsPool.length];
                 try {
-                    const encoded = encodeURIComponent(cleanVisualPrompt);
-                    const fluxUrl = `[https://image.pollinations.ai/prompt/$](https://image.pollinations.ai/prompt/$){encoded}?width=768&height=768&seed=${seed}&nologo=true&model=flux`;
-                    return await loadImageElement(fluxUrl, 9000);
-                } catch (e) {}
+                    const fluxUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=768&height=768&seed=${seed + i}&nologo=true&enhance=false&model=${modelName}`;
+                    return await loadImageElement(fluxUrl, 28000);
+                } catch (err) {
+                    // עובר מיד למודל הבא אם השרת הנוכחי עמוס
+                }
             }
 
-            // 3. שליפה מיידית (0.2 שניות) ממאגר תמונות הממים הקומיות ב-CDN (מתחלף בכל לחיצה ב-100% אמינות!)
-            const categoryPhotos = INSTANT_MEME_PHOTOS[category] || INSTANT_MEME_PHOTOS.classic;
-            const allPhotos = [
-                ...categoryPhotos,
-                ...INSTANT_MEME_PHOTOS.classic,
-                ...INSTANT_MEME_PHOTOS.football,
-                ...INSTANT_MEME_PHOTOS.gaming,
-                ...INSTANT_MEME_PHOTOS.food
-            ];
-            const chosenUrl = allPhotos[state.photoRotationIndex % allPhotos.length];
-            try {
-                return await loadImageElement(chosenUrl, 6000);
-            } catch (e) {
-                return createDynamicIllustratedCard(category);
-            }
+            throw new Error("Image generation timeout");
         }
 
-        async function triggerAiImageUpdate(promptToUse, silentToast = false) {
-            const targetPrompt = promptToUse || state.imagePrompt || "Funny expressive husband in a domestic comedy situation";
+        // Trigger only a new AI image for the current meme
+        async function triggerAiImageUpdate(promptToUse, silentOverlay = false) {
+            state.imageSeed = Math.floor(Math.random() * 999999);
+            const targetPrompt = promptToUse || state.imagePrompt || "Funny expressive husband in a domestic comedy situation, vibrant lighting";
 
             loadingOverlay.classList.remove('hidden');
             newAiImageBtn.disabled = true;
             generateBtn.disabled = true;
             loadingEmoji.textContent = "🎨";
-            loadingTitle.textContent = "מחליפה לתמונה חדשה...";
-            loadingSubtitle.textContent = "טוענת סצנה קומית נקייה שמתאימה לפאנץ'";
-            loadingBar.style.width = "70%";
+            loadingTitle.textContent = "מייצרת תמונת AI מותאמת למים...";
+            loadingSubtitle.textContent = "בונה סצנה הומוריסטית חדשה שמתאימה בול לפאנץ'";
+            loadingBar.style.width = "65%";
 
             try {
-                // אם המשתמש לחץ ידנית על "החלף תמונה מיד", נבצע רוטציה מהירה כדי שלא ייתקע בתור של 45 שניות
-                const forceFast = !silentToast;
-                const imgObj = await fetchNextMemeImage(targetPrompt, state.category, forceFast);
+                const imgObj = await generateGuaranteedAiImage(targetPrompt, state.imageSeed);
                 state.currentImageObj = imgObj;
                 loadingBar.style.width = "100%";
                 renderMemeCanvas();
-                if (!silentToast) {
-                    showToast("התמונה הוחלפה בהצלחה! 🎨✨");
+                if (!silentOverlay) {
+                    showToast("נוצרה תמונת AI חדשה! 🎨✨");
                 }
             } catch (err) {
-                state.currentImageObj = createDynamicIllustratedCard(state.category);
+                state.currentImageObj = createIllustratedFallback(state.category);
                 renderMemeCanvas();
             } finally {
                 loadingOverlay.classList.add('hidden');
@@ -1527,6 +1470,7 @@
             }
         }
 
+        // Full Generation Orchestrator (Text + 3 Connected Options + New AI Image)
         async function handleGenerateMeme() {
             const complaint = complaintInput.value.trim();
             if (!complaint) {
@@ -1537,17 +1481,20 @@
             }
             errorBanner.classList.add('hidden');
             state.complaint = complaint;
+            state.imageSeed = Math.floor(Math.random() * 999999);
 
+            // Show Loading UI
             loadingOverlay.classList.remove('hidden');
             generateBtn.disabled = true;
             regenerateAngleBtn.disabled = true;
             newAiImageBtn.disabled = true;
             loadingEmoji.textContent = "🤸‍♀️";
             loadingTitle.textContent = "הולכת על חבל דק...";
-            loadingSubtitle.textContent = "מנסחת 3 פאנצ'ים מחוברים ומחליפה תמונה";
-            loadingBar.style.width = "45%";
+            loadingSubtitle.textContent = "מנסחת 3 פאנצ'ים מחוברים שהוא יבין בשנייה";
+            loadingBar.style.width = "38%";
 
             try {
+                // 1. Generate 3 connected Hebrew meme options & image prompt
                 const concept = await generateMemeConcept(complaint, state.category, state.format, state.intensity);
 
                 if (concept.options && concept.options.length > 0) {
@@ -1560,19 +1507,26 @@
 
                 applyCurrentOptionToUI();
 
+                // Update loading state for Step 2 (AI Image Generation)
                 loadingEmoji.textContent = "🎨";
-                loadingTitle.textContent = "טוענת תמונה חדשה למים...";
-                loadingBar.style.width = "85%";
+                loadingTitle.textContent = "מייצרת תמונת AI חדשה למים...";
+                loadingSubtitle.textContent = "מתאימה את ההבעה והסצנה בדיוק לבדיחה";
+                loadingBar.style.width = "78%";
 
-                const imgObj = await fetchNextMemeImage(state.imagePrompt, state.category, false);
-                state.currentImageObj = imgObj;
+                // 2. Generate Guaranteed AI Image
+                try {
+                    const imgObj = await generateGuaranteedAiImage(state.imagePrompt, state.imageSeed);
+                    state.currentImageObj = imgObj;
+                } catch (imgErr) {
+                    state.currentImageObj = createIllustratedFallback(state.category);
+                }
 
                 loadingBar.style.width = "100%";
                 renderMemeCanvas();
                 showToast("המים החדש מוכן! אפשר גם להחליף בין 3 פאנצ'ים 🔄");
             } catch (err) {
-                state.currentImageObj = createDynamicIllustratedCard(state.category);
-                renderMemeCanvas();
+                errorBanner.textContent = "אופס, הייתה תקלה קטנה ביצירת המים. נסי ללחוץ שוב!";
+                errorBanner.classList.remove('hidden');
             } finally {
                 loadingOverlay.classList.add('hidden');
                 generateBtn.disabled = false;
@@ -1581,7 +1535,7 @@
             }
         }
 
-        // Event Listeners
+        // Event Listeners: Category Tabs in Preset Hub
         presetTabsContainer.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 presetTabsContainer.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -1591,6 +1545,7 @@
             });
         });
 
+        // Event Listeners: Custom Input
         complaintInput.addEventListener('input', () => {
             clearInputBtn.classList.toggle('hidden', !complaintInput.value.trim());
             if (complaintInput.value.trim()) {
@@ -1606,6 +1561,7 @@
             complaintInput.focus();
         });
 
+        // Event Listeners: Joke Format Selection
         formatButtons.forEach(btn => {
             btn.addEventListener('click', () => {
                 formatButtons.forEach(b => b.classList.remove('active'));
@@ -1614,6 +1570,7 @@
             });
         });
 
+        // Event Listeners: Category Selection
         categoryButtons.forEach(btn => {
             btn.addEventListener('click', () => {
                 categoryButtons.forEach(b => b.classList.remove('active'));
@@ -1622,12 +1579,14 @@
             });
         });
 
+        // Event Listeners: Intensity Slider
         intensitySlider.addEventListener('input', (e) => {
             const val = parseInt(e.target.value, 10);
             state.intensity = val;
             intensityBadge.textContent = intensityLabels[val].badge;
         });
 
+        // Event Listeners: Cycle between the 3 connected punchline options
         cyclePunchlineBtn.addEventListener('click', () => {
             if (!state.options || state.options.length === 0) return;
             state.currentOptionIndex = (state.currentOptionIndex + 1) % state.options.length;
@@ -1635,6 +1594,7 @@
             showToast(`עברת לניסוח פאנץ' ${state.currentOptionIndex + 1} מתוך ${state.options.length} 🎯`);
         });
 
+        // Event Listeners: Live Meme Text Editing
         topTextInput.addEventListener('input', (e) => {
             state.topText = e.target.value;
             renderMemeCanvas();
@@ -1656,10 +1616,12 @@
             renderMemeCanvas();
         });
 
+        // Generate, Regenerate & New AI Image Buttons
         generateBtn.addEventListener('click', () => handleGenerateMeme());
         regenerateAngleBtn.addEventListener('click', () => handleGenerateMeme());
         newAiImageBtn.addEventListener('click', () => triggerAiImageUpdate(state.imagePrompt, false));
 
+        // Download Meme as PNG
         downloadMemeBtn.addEventListener('click', () => {
             renderMemeCanvas();
             try {
@@ -1675,6 +1637,7 @@
             }
         });
 
+        // Copy WhatsApp Caption
         copyWhatsappBtn.addEventListener('click', () => {
             const textToCopy = whatsappCaptionText.textContent.trim();
             const tempInput = document.createElement('textarea');
@@ -1686,12 +1649,14 @@
             showToast("ההודעה לוואטסאפ הועתקה ללוח! 💬");
         });
 
+        // Initialize Default View on Load
         window.onload = async function () {
             renderPresetCards();
             complaintInput.value = state.complaint;
             clearInputBtn.classList.remove('hidden');
 
-            const starterImg = createDynamicIllustratedCard('football');
+            // Render immediate starter illustration while first AI image loads seamlessly
+            const starterImg = createIllustratedFallback('football');
             starterImg.onload = async () => {
                 if (!state.currentImageObj) {
                     state.currentImageObj = starterImg;
@@ -1702,6 +1667,7 @@
                 applyCurrentOptionToUI();
             };
 
+            // Automatically load a real AI image for the default preset on startup
             triggerAiImageUpdate(state.imagePrompt, true);
         };
     </script>
